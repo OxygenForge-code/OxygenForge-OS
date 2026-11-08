@@ -10,7 +10,7 @@ const SITE = {
   releases: {
     desktop: {
       x86_64: {
-        url: "downloads/OxygenForgeOS-desktop-x86_64.iso",
+        url: "https://github.com/OxygenForge-code/OxygenForge-OS/releases/download/V1/OxygenForgeOS-desktop-x86_64.iso",
         size: "1.9 GB",
         sha256: "3c9687e1a59878cfcf40d0d764e81f0e2772adc420c1c68b8c2f5ad216219f55"
       },
