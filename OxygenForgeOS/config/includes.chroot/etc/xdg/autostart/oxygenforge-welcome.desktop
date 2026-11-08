@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=OxygenForgeOS Karşılama
+Comment=Kurulum, gizlilik ve ilk adımlar
+Exec=oxygenforge-welcome
+Terminal=false
+NoDisplay=true
+OnlyShowIn=XFCE;
+X-GNOME-Autostart-enabled=true

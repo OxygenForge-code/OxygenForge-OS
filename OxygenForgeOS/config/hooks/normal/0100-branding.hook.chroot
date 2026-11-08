@@ -1,0 +1,38 @@
+#!/bin/sh
+# Branding and desktop integration inside the chroot.
+set -eu
+
+# Keep /etc/os-release as the standard symlink to the generated identity.
+rm -f /etc/os-release
+ln -s ../usr/lib/os-release /etc/os-release
+
+install -d -m 0755 /usr/share/backgrounds
+ln -sfn /usr/share/oxygenforge/wallpapers /usr/share/backgrounds/oxygenforge
+
+install -d -m 0755 /var/lib/oxygenforge
+
+# Application and helper permissions. pkexec refuses world-writable helpers.
+chmod 0755 /usr/local/bin/oxygenforge-privacy \
+           /usr/local/bin/oxygenforge-welcome \
+           /usr/local/bin/oxygenforge-installer \
+           /usr/local/bin/oxygenforge-set-wallpaper \
+           /usr/local/bin/oxygenforge-liquid \
+           /usr/libexec/oxygenforge-privacy-helper \
+           /usr/libexec/oxygenforge-firstboot
+chmod 0644 /usr/share/polkit-1/actions/org.oxygenforge.privacy.policy \
+           /usr/share/applications/oxygenforge-privacy.desktop \
+           /usr/share/applications/oxygenforge-welcome.desktop \
+           /usr/share/applications/oxygenforge-installer.desktop
+chown -R root:root /usr/local/bin /usr/libexec
+
+if command -v update-desktop-database >/dev/null 2>&1; then
+  update-desktop-database /usr/share/applications >/dev/null 2>&1 || true
+fi
+
+if command -v gtk-update-icon-cache >/dev/null 2>&1 && [ -d /usr/share/icons/hicolor ]; then
+  gtk-update-icon-cache -f -t /usr/share/icons/hicolor >/dev/null 2>&1 || true
+fi
+
+if command -v fc-cache >/dev/null 2>&1; then
+  fc-cache -f >/dev/null 2>&1 || true
+fi

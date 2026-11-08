@@ -1,0 +1,24 @@
+# OxygenForgeOS Server edition
+# The live image has a console only. Calamares is started with
+# `oxygenforge-installer`; it needs a minimal X server but no desktop.
+openssh-server
+fail2ban
+unattended-upgrades
+needrestart
+
+tmux
+vim
+nano
+htop
+rsync
+curl
+wget
+git
+
+# Calamares + minimal X for the graphical installer
+calamares
+xserver-xorg
+xinit
+x11-xserver-utils
+dbus-x11
+fonts-dejavu-core

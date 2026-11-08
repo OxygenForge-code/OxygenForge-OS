@@ -1,0 +1,26 @@
+# OxygenForgeOS GRUB theme (installed system)
+desktop-color: "#1b110c"
+title-text: "OxygenForgeOS"
+title-color: "#f0b184"
+title-top: 14%
+
++ boot_menu {
+    left = 15%
+    top = 32%
+    width = 70%
+    height = 44%
+    item_color = "#d8cfc8"
+    selected_item_color = "#1b110c"
+    item_height = 34
+    item_spacing = 8
+    item_padding = 10
+}
+
++ label {
+    top = 86%
+    left = 0
+    width = 100%
+    align = "center"
+    text = "Gizlilik odaklı Linux · OxygenForgeOS 1.0"
+    color = "#8a7c73"
+}

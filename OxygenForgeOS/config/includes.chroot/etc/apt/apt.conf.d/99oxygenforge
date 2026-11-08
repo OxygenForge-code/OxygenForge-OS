@@ -1,0 +1,13 @@
+// OxygenForgeOS: updates are user-initiated and package installation stays
+// predictable. No popularity contest, no background list refresh.
+APT::Install-Recommends "true";
+APT::Install-Suggests "false";
+
+APT::Periodic::Enable "0";
+APT::Periodic::Update-Package-Lists "0";
+APT::Periodic::Download-Upgradeable-Packages "0";
+APT::Periodic::AutocleanInterval "0";
+APT::Periodic::Unattended-Upgrade "0";
+
+Acquire::http::User-Agent "OxygenForgeOS/1.0";
+Acquire::https::User-Agent "OxygenForgeOS/1.0";

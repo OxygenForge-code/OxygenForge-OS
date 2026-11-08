@@ -1,0 +1,189 @@
+/* Liquid glass layer: translucent panels, specular rims and pointer-following light. */
+:root {
+  --liquid-blur: blur(30px) saturate(170%);
+  --liquid-bg: linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.035) 44%, rgba(255,255,255,.085));
+  --liquid-border: rgba(255,255,255,.24);
+  --liquid-shadow: 0 32px 80px -32px rgba(0,0,0,.72), inset 0 1px 0 rgba(255,255,255,.3), inset 0 -1px 0 rgba(255,255,255,.05);
+}
+
+.hero,
+.glass,
+.benefits,
+.features,
+.tldr div,
+.pitem,
+.legal-card,
+.card,
+.rc {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.hero,
+.glass,
+.benefits,
+.features,
+.nav,
+.tldr div,
+.pitem {
+  background: var(--liquid-bg);
+  border: 1px solid var(--liquid-border);
+  box-shadow: var(--liquid-shadow);
+  -webkit-backdrop-filter: var(--liquid-blur);
+  backdrop-filter: var(--liquid-blur);
+}
+
+.hero {
+  border-radius: 32px;
+  box-shadow: 0 40px 110px -48px rgba(0,0,0,.82), inset 0 1px 0 rgba(255,255,255,.28), inset 0 -1px 0 rgba(255,255,255,.06);
+}
+
+.nav {
+  background: linear-gradient(135deg, rgba(42,25,17,.66), rgba(28,17,12,.38) 50%, rgba(60,36,24,.5));
+  border-color: rgba(255,255,255,.24);
+  box-shadow: 0 18px 46px -22px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.28);
+  overflow: hidden;
+}
+
+.glass {
+  border-radius: 26px;
+}
+
+.card {
+  background: linear-gradient(145deg, rgba(255,255,255,.95), rgba(249,242,236,.84) 54%, rgba(255,255,255,.91));
+  border: 1px solid rgba(255,255,255,.7);
+  box-shadow: 0 36px 90px -34px rgba(0,0,0,.72), inset 0 1px 0 rgba(255,255,255,.9);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+  backdrop-filter: blur(24px) saturate(145%);
+}
+
+.rc {
+  background: linear-gradient(150deg, rgba(255,255,255,.93), rgba(250,244,238,.82) 55%, rgba(255,255,255,.9));
+  border: 1px solid rgba(255,255,255,.62);
+  box-shadow: 0 28px 70px -30px rgba(0,0,0,.62), inset 0 1px 0 rgba(255,255,255,.9);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  backdrop-filter: blur(22px) saturate(140%);
+}
+
+.tldr div,
+.pitem {
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255,255,255,.1), rgba(255,255,255,.035));
+}
+
+/* Refraction-like rim on every glass surface. */
+.hero::before,
+.glass::before,
+.nav::before,
+.benefits::before,
+.features::before,
+.card::before,
+.rc::before,
+.legal-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255,255,255,.72), rgba(255,255,255,.06) 34%, rgba(240,177,132,.3) 62%, rgba(255,255,255,.04));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: .62;
+}
+
+/* Soft moving light that follows the pointer. */
+.liquid::after {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(300px circle at var(--mx, 18%) var(--my, 0%), rgba(255,255,255,.2), rgba(255,255,255,.06) 38%, transparent 68%);
+  transition: opacity .45s ease;
+}
+
+.liquid:hover::after {
+  opacity: 1;
+}
+
+.hero > *,
+.glass > *,
+.nav > *,
+.benefits > :not(.shine),
+.features > *,
+.card > *,
+.rc > *,
+.legal-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Form controls sit on the white glass card; keep them slightly frosted too. */
+.card select,
+.card output {
+  background-color: rgba(255,255,255,.58);
+  border-color: rgba(90,74,64,.2);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.card button {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.22), 0 10px 22px -12px rgba(0,0,0,.55);
+}
+
+.card button:hover {
+  background: linear-gradient(180deg, #5a4b43, #3b302b);
+}
+
+/* Warm and cool aurora behind the moving background. */
+.bg::after {
+  background:
+    radial-gradient(38% 48% at 82% 16%, rgba(255,224,196,.16), transparent 72%),
+    radial-gradient(34% 42% at 12% 82%, rgba(185,96,44,.2), transparent 72%),
+    rgba(0,0,0,.18);
+}
+
+.bg::before {
+  content: "";
+  position: absolute;
+  left: -18vmax;
+  top: -24vmax;
+  width: 72vmax;
+  height: 72vmax;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,177,132,.22), transparent 66%);
+  filter: blur(44px);
+  animation: liquid-aurora 24s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes liquid-aurora {
+  from { transform: translate3d(0,0,0) scale(1); }
+  to { transform: translate3d(16vmax, 10vmax, 0) scale(1.16); }
+}
+
+.liquid,
+.liquid::after {
+  transition: opacity .45s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg::before { animation: none; }
+  .liquid::after { transition: none; }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .hero, .glass, .benefits, .features, .nav, .tldr div, .pitem {
+    background: rgba(35,22,15,.86);
+  }
+  .card, .rc {
+    background: rgba(255,255,255,.96);
+  }
+}

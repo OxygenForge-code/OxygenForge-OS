@@ -1,0 +1,55 @@
+{
+  "policies": {
+    "DisableTelemetry": true,
+    "DisableFirefoxStudies": true,
+    "DisablePocket": true,
+    "DisableFeedbackCommands": true,
+    "DontCheckDefaultBrowser": true,
+    "NetworkPrediction": false,
+    "OfferToSaveLogins": false,
+    "PasswordManagerEnabled": false,
+    "AutofillAddressEnabled": false,
+    "AutofillCreditCardEnabled": false,
+    "EnableTrackingProtection": {
+      "Value": true,
+      "Locked": false,
+      "Cryptomining": true,
+      "Fingerprinting": true
+    },
+    "Cookies": {
+      "Behavior": "reject-tracker-and-partition-foreign",
+      "Locked": false
+    },
+    "DNSOverHTTPS": {
+      "Enabled": false,
+      "Locked": false
+    },
+    "Permissions": {
+      "Location": {
+        "BlockNewRequests": true,
+        "Locked": false
+      }
+    },
+    "Preferences": {
+      "app.shield.optoutstudies.enabled": false,
+      "browser.crashReports.unsubmittedCheck.enabled": false,
+      "browser.newtabpage.activity-stream.feeds.telemetry": false,
+      "browser.newtabpage.activity-stream.showSponsored": false,
+      "browser.newtabpage.activity-stream.showSponsoredTopSites": false,
+      "browser.newtabpage.activity-stream.telemetry": false,
+      "browser.search.suggest.enabled": false,
+      "browser.tabs.crashReporting.sendReport": false,
+      "browser.urlbar.quicksuggest.enabled": false,
+      "browser.urlbar.suggest.quicksuggest.nonsponsored": false,
+      "browser.urlbar.suggest.quicksuggest.sponsored": false,
+      "browser.urlbar.suggest.searches": false,
+      "datareporting.healthreport.uploadEnabled": false,
+      "datareporting.policy.dataSubmissionEnabled": false,
+      "privacy.donottrackheader.enabled": true,
+      "privacy.trackingprotection.enabled": true,
+      "privacy.trackingprotection.socialtracking.enabled": true,
+      "toolkit.telemetry.enabled": false,
+      "toolkit.telemetry.unified": false
+    }
+  }
+}

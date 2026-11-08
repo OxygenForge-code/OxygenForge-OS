@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=OxygenForge Liquid Glass
+Comment=Enable blurred glass windows, rounded corners and soft shadows
+Exec=oxygenforge-liquid
+Icon=oxygenforge
+Terminal=false
+NoDisplay=true
+OnlyShowIn=XFCE;

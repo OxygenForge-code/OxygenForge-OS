@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=OxygenForgeOS Karşılama
+Name[en]=OxygenForgeOS Welcome
+Comment=Kurulum, gizlilik ve ilk adımlar
+Comment[en]=Install, privacy and first steps
+Exec=oxygenforge-welcome
+Icon=oxygenforge
+Terminal=false
+Categories=System;
+Keywords=welcome;hosgeldin;kurulum;privacy;
+StartupNotify=true

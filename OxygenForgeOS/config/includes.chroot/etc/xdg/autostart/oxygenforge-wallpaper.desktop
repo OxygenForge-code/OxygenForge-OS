@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=OxygenForgeOS Duvar Kâğıdı
+Comment=İlk oturumda markalı duvar kâğıdını uygula
+Exec=/usr/local/bin/oxygenforge-set-wallpaper
+Terminal=false
+NoDisplay=true
+OnlyShowIn=XFCE;
+X-GNOME-Autostart-enabled=true

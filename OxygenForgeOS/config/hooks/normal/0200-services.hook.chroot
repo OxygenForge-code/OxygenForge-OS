@@ -1,0 +1,29 @@
+#!/bin/sh
+# Service defaults for both editions.
+set -eu
+
+systemctl enable nftables.service >/dev/null 2>&1 || true
+systemctl enable systemd-resolved.service >/dev/null 2>&1 || true
+systemctl enable systemd-timesyncd.service >/dev/null 2>&1 || true
+systemctl enable oxygenforge-firstboot.service >/dev/null 2>&1 || true
+systemctl enable fstrim.timer >/dev/null 2>&1 || true
+
+# OpenSSH is opt-in on the server and absent on the desktop.
+systemctl disable ssh.service >/dev/null 2>&1 || true
+
+# No LAN discovery or printer browsing by default.
+systemctl mask avahi-daemon.service avahi-daemon.socket cups-browsed.service >/dev/null 2>&1 || true
+
+# Bluetooth is available but off until the user enables it.
+systemctl disable bluetooth.service >/dev/null 2>&1 || true
+
+# Desktop vs server target.
+if [ -x /usr/bin/startxfce4 ]; then
+  systemctl enable lightdm.service >/dev/null 2>&1 || true
+  systemctl set-default graphical.target >/dev/null 2>&1 || true
+else
+  systemctl set-default multi-user.target >/dev/null 2>&1 || true
+fi
+
+# NetworkManager is the desktop network backend.
+systemctl enable NetworkManager.service >/dev/null 2>&1 || true

@@ -1,0 +1,23 @@
+#!/bin/sh
+# Set the OxygenForge wallpaper for every detected XFCE monitor/workspace, but
+# only when the user has not chosen a wallpaper yet. Runs at login; exits
+# quietly on non-XFCE sessions.
+set -eu
+
+command -v xfconf-query >/dev/null 2>&1 || exit 0
+
+WALLPAPER="/usr/share/oxygenforge/wallpapers/forge-dark.svg"
+[ -r "$WALLPAPER" ] || exit 0
+
+xfconf-query -c xfce4-desktop -l 2>/dev/null \
+  | grep -E '/last-image$' \
+  | while IFS= read -r property; do
+      current="$(xfconf-query -c xfce4-desktop -p "$property" 2>/dev/null || true)"
+      if [ -z "$current" ] \
+        || [ "$current" = "/usr/share/backgrounds/xfce/xfce-verticals.png" ] \
+        || [ "$current" = "/usr/share/backgrounds/xfce/xfce-stripes.png" ]; then
+        xfconf-query -c xfce4-desktop -p "$property" -s "$WALLPAPER" || true
+        style="${property%/last-image}/image-style"
+        xfconf-query -c xfce4-desktop -p "$style" -s 5 2>/dev/null || true
+      fi
+    done

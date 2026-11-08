@@ -1,0 +1,25 @@
+---
+componentName: oxygenforge
+
+strings:
+  productName: OxygenForgeOS
+  shortProductName: OxygenForge
+  version: 1.0
+  shortVersion: "1.0"
+  versionedName: OxygenForgeOS 1.0 "Forge"
+  shortVersionedName: OxygenForge 1.0
+  bootloaderEntryName: OxygenForgeOS
+  productUrl: https://oxygenforge.example/
+  supportUrl: https://oxygenforge.example/sss
+  releaseNotesUrl: https://oxygenforge.example/surum-notlari
+  knownIssuesUrl: https://oxygenforge.example/sss
+
+images:
+  productLogo: logo.png
+  productIcon: logo.png
+
+style:
+  sidebarBackground: "#1b110c"
+  sidebarText: "#f6ece4"
+  sidebarTextSelect: "#f0b184"
+  sidebarTextHighlight: "#1b110c"

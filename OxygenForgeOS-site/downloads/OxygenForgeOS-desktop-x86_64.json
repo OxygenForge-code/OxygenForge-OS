@@ -1,0 +1,10 @@
+{
+  "edition": "desktop",
+  "arch": "x86_64",
+  "version": "1.0",
+  "file": "OxygenForgeOS-desktop-x86_64.iso",
+  "size": "1.9G",
+  "bytes": 1959100416,
+  "sha256": "3c9687e1a59878cfcf40d0d764e81f0e2772adc420c1c68b8c2f5ad216219f55",
+  "built_at": "2026-11-08T13:32:30Z"
+}

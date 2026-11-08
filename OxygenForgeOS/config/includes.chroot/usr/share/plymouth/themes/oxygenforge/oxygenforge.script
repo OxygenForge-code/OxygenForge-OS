@@ -1,0 +1,82 @@
+# OxygenForgeOS Plymouth script theme.
+# Kept to the small, stable script-plugin API so a missing logo or font can
+# never stop the boot: Plymouth falls back to text if this file fails.
+
+Window.SetBackgroundTopColor(0.105, 0.066, 0.047);
+Window.SetBackgroundBottomColor(0.062, 0.039, 0.028);
+
+screen_width = Window.GetWidth();
+screen_height = Window.GetHeight();
+
+# --- Logo -----------------------------------------------------------------
+logo.image = Image("logo.png");
+logo.sprite = Sprite(logo.image);
+logo.sprite.SetX((screen_width - logo.image.GetWidth()) / 2);
+logo.sprite.SetY((screen_height - logo.image.GetHeight()) / 2 - 48);
+
+# --- Wordmark -------------------------------------------------------------
+title.image = Image.Text("OxygenForgeOS", 0.941, 0.690, 0.518, 1.0);
+title.sprite = Sprite(title.image);
+title.sprite.SetX((screen_width - title.image.GetWidth()) / 2);
+title.sprite.SetY((screen_height / 2) + 128);
+
+subtitle.image = Image.Text("gizlilik odaklı linux", 0.690, 0.620, 0.580, 1.0);
+subtitle.sprite = Sprite(subtitle.image);
+subtitle.sprite.SetX((screen_width - subtitle.image.GetWidth()) / 2);
+subtitle.sprite.SetY((screen_height / 2) + 164);
+
+# --- Pulsing dots ---------------------------------------------------------
+dots = {};
+for i = 1, 3 do
+  local dot = {};
+  dot.image = Image.Text(".", 0.941, 0.690, 0.518, 1.0);
+  dot.sprite = Sprite(dot.image);
+  dot.sprite.SetX((screen_width / 2) + ((i - 2) * 22) - 4);
+  dot.sprite.SetY((screen_height / 2) + 202);
+  dots[i] = dot;
+end
+
+frame = 0;
+function refresh()
+  frame = frame + 1;
+  for i = 1, 3 do
+    local phase = (frame + ((i - 1) * 7)) % 21;
+    local opacity = 0.22;
+    if phase < 7 then
+      opacity = 0.22 + (phase / 7.0) * 0.78;
+    elseif phase < 14 then
+      opacity = 1.0 - ((phase - 7) / 7.0) * 0.78;
+    end
+    dots[i].sprite.SetOpacity(opacity);
+  end
+end
+Plymouth.SetRefreshFunction(refresh);
+
+# --- Disk password prompt -------------------------------------------------
+password = {};
+function display_password(prompt, bullets)
+  if password.sprite ~= nil then
+    password.sprite.SetOpacity(0.0);
+  end
+  local text = prompt;
+  if bullets > 0 then
+    local stars = "";
+    for i = 1, bullets do
+      stars = stars .. "*";
+    end
+    text = text .. "  " .. stars;
+  end
+  password.image = Image.Text(text, 0.95, 0.95, 0.95, 1.0);
+  password.sprite = Sprite(password.image);
+  password.sprite.SetX((screen_width - password.image.GetWidth()) / 2);
+  password.sprite.SetY(screen_height * 0.78);
+end
+
+function display_normal()
+  if password.sprite ~= nil then
+    password.sprite.SetOpacity(0.0);
+  end
+end
+
+Plymouth.SetDisplayPasswordFunction(display_password);
+Plymouth.SetDisplayNormalFunction(display_normal);

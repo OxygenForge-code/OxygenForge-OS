@@ -1,0 +1,43 @@
+#!/bin/sh
+# live-build configuration. Invoked automatically by `lb build`, with values
+# exported by build.sh.
+set -eu
+
+: "${OF_EDITION:=desktop}"
+: "${OF_ARCH:=amd64}"
+: "${OF_VERSION:=1.0}"
+
+case "$OF_EDITION" in
+  desktop) SPLASH=splash ;;
+  server)  SPLASH= ;;
+  *) echo "Bilinmeyen sürüm: $OF_EDITION" >&2; exit 2 ;;
+esac
+
+if [ "$OF_ARCH" = "amd64" ]; then
+  BOOTLOADERS="syslinux,grub-efi"
+else
+  BOOTLOADERS="grub-efi"
+fi
+
+# Turkish live session defaults; Calamares lets the installed system choose.
+BOOTAPPEND="boot=live components quiet ${SPLASH} hostname=oxygenforge username=oxygenforge locales=tr_TR.UTF-8 keyboard-layouts=tr timezone=Europe/Istanbul"
+
+lb config noauto \
+  --mode debian \
+  --distribution trixie \
+  --architecture "$OF_ARCH" \
+  --linux-flavours "$OF_ARCH" \
+  --binary-images iso-hybrid \
+  --bootloaders "$BOOTLOADERS" \
+  --debian-installer none \
+  --memtest none \
+  --archive-areas "main contrib non-free non-free-firmware" \
+  --apt-indices false \
+  --source false \
+  --checksums sha256 \
+  --compression xz \
+  --iso-application "OxygenForgeOS" \
+  --iso-preparer "OxygenForge" \
+  --iso-publisher "OxygenForge" \
+  --iso-volume "OXYGENFORGE" \
+  --bootappend-live "$BOOTAPPEND"

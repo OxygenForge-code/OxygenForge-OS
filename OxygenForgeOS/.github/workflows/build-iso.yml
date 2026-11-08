@@ -1,0 +1,57 @@
+name: Build ISO
+
+on:
+  workflow_dispatch:
+    inputs:
+      edition:
+        description: "Edition to build"
+        required: true
+        default: desktop
+        type: choice
+        options:
+          - desktop
+          - server
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Syntax and structure checks
+        run: bash ./scripts/check.sh
+
+      - name: Build in Debian 13 container
+        env:
+          EDITION: ${{ inputs.edition }}
+        run: |
+          docker run --privileged --rm \
+            -v "$PWD:/src" -w /src \
+            -e OF_EDITION="$EDITION" \
+            debian:trixie \
+            bash -lc '
+              set -euo pipefail
+              apt-get update
+              apt-get install -y --no-install-recommends \
+                live-build debootstrap squashfs-tools xorriso \
+                grub-pc-bin grub-efi-amd64-bin mtools dosfstools \
+                ca-certificates git
+              bash ./build.sh "$OF_EDITION"
+            '
+
+      - name: Upload ISO artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: oxygenforgeos-${{ inputs.edition }}-iso
+          path: |
+            out/*.iso
+            out/*.sha256
+            out/*.json
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,14 @@
+PRETTY_NAME="OxygenForgeOS 1.0 (Forge)"
+NAME="OxygenForgeOS"
+VERSION_ID="1.0"
+VERSION="1.0 (Forge)"
+VERSION_CODENAME=forge
+ID=oxygenforge
+ID_LIKE=debian
+ANSI_COLOR="1;33"
+HOME_URL="https://oxygenforge.example/"
+SUPPORT_URL="https://oxygenforge.example/sss"
+BUG_REPORT_URL="https://oxygenforge.example/issues"
+PRIVACY_POLICY_URL="https://oxygenforge.example/gizlilik.html"
+DOCUMENTATION_URL="https://oxygenforge.example/kurulum"
+LOGO=oxygenforge

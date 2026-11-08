@@ -1,0 +1,4 @@
+linux-image-arm64
+
+# Calamares needs the target bootloader binaries.
+grub-efi-arm64-bin

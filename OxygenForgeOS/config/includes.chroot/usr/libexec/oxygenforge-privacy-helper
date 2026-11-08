@@ -1,0 +1,114 @@
+#!/bin/bash
+# Fixed-purpose privileged helper for OxygenForge Gizlilik Merkezi.
+# It accepts exactly one feature and one action; it never evaluates shell input
+# from the GUI and never touches user files.
+set -euo pipefail
+umask 022
+
+if [ "$(id -u)" -ne 0 ]; then
+  echo "Bu yardımcı root olarak çalışmalı." >&2
+  exit 1
+fi
+
+FEATURE="${1:-}"
+VALUE="${2:-}"
+
+RESOLVED_DIR=/etc/systemd/resolved.conf.d
+RESOLVED_CONF="$RESOLVED_DIR/90-oxygenforge.conf"
+MAC_CONF=/etc/NetworkManager/conf.d/90-oxygenforge-privacy.conf
+COREDUMP_CONF=/etc/systemd/coredump.conf.d/90-oxygenforge.conf
+
+write_dns_on() {
+  install -d -m 0755 "$RESOLVED_DIR"
+  cat > "$RESOLVED_CONF" <<'EOF'
+[Resolve]
+DNS=9.9.9.9#dns.quad9.net 2620:fe::fe#dns.quad9.net
+FallbackDNS=149.112.112.112#dns.quad9.net 2620:fe::9#dns.quad9.net
+DNSOverTLS=yes
+DNSSEC=allow-downgrade
+Cache=yes
+Domains=~.
+MulticastDNS=no
+LLMNR=no
+EOF
+  systemctl restart systemd-resolved.service 2>/dev/null || true
+  resolvectl flush-caches 2>/dev/null || true
+}
+
+write_dns_off() {
+  # Remove our override so resolved falls back to the network-provided DNS.
+  rm -f "$RESOLVED_CONF"
+  systemctl restart systemd-resolved.service 2>/dev/null || true
+  resolvectl flush-caches 2>/dev/null || true
+}
+
+write_mac_on() {
+  install -d -m 0755 "$(dirname "$MAC_CONF")"
+  cat > "$MAC_CONF" <<'EOF'
+[device]
+wifi.scan-rand-mac-address=yes
+
+[connection]
+wifi.cloned-mac-address=random
+ethernet.cloned-mac-address=stable
+
+[main]
+dns=systemd-resolved
+EOF
+  systemctl reload NetworkManager.service 2>/dev/null || true
+}
+
+write_mac_off() {
+  rm -f "$MAC_CONF"
+  systemctl reload NetworkManager.service 2>/dev/null || true
+}
+
+write_crash_off() {
+  install -d -m 0755 "$(dirname "$COREDUMP_CONF")"
+  cat > "$COREDUMP_CONF" <<'EOF'
+[Coredump]
+Storage=none
+ProcessSizeMax=0
+EOF
+  systemctl stop systemd-coredump.socket 2>/dev/null || true
+}
+
+write_crash_on() {
+  install -d -m 0755 "$(dirname "$COREDUMP_CONF")"
+  cat > "$COREDUMP_CONF" <<'EOF'
+[Coredump]
+Storage=journal
+ProcessSizeMax=200M
+EOF
+  systemctl start systemd-coredump.socket 2>/dev/null || true
+}
+
+firewall_on() {
+  systemctl enable nftables.service >/dev/null 2>&1 || true
+  systemctl start nftables.service
+}
+
+firewall_off() {
+  systemctl disable --now nftables.service >/dev/null 2>&1 || true
+}
+
+case "$FEATURE:$VALUE" in
+  dns:on)        write_dns_on ;;
+  dns:off)       write_dns_off ;;
+  firewall:on)   firewall_on ;;
+  firewall:off)  firewall_off ;;
+  mac:on)        write_mac_on ;;
+  mac:off)       write_mac_off ;;
+  crash:on)      write_crash_on ;;
+  crash:off)     write_crash_off ;;
+  reset:on)
+    write_dns_on
+    firewall_on
+    write_mac_on
+    write_crash_off
+    ;;
+  *)
+    echo "Geçersiz istek: ${FEATURE}:${VALUE}" >&2
+    exit 2
+    ;;
+esac

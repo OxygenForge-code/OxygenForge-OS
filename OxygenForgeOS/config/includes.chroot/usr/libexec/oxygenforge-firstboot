@@ -1,0 +1,12 @@
+#!/bin/bash
+# First boot on the installed system. The live image deliberately has no SSH
+# host keys and an empty machine-id; both must be generated on the target, not
+# shipped in the ISO.
+set -euo pipefail
+
+if [ -x /usr/sbin/ssh-keygen ]; then
+  /usr/sbin/ssh-keygen -A
+fi
+
+install -d -m 0755 /var/lib/oxygenforge
+date -u +%Y-%m-%dT%H:%M:%SZ > /var/lib/oxygenforge/firstboot-done

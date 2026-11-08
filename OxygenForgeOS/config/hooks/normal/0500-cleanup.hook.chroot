@@ -1,0 +1,26 @@
+#!/bin/sh
+# Final chroot cleanup: no build identities, shell history or stale logs.
+set -eu
+
+apt-get clean >/dev/null 2>&1 || true
+rm -rf /var/lib/apt/lists/*
+rm -rf /var/cache/apt/archives/*.deb
+rm -rf /tmp/*
+rm -rf /var/tmp/*
+
+rm -f /root/.bash_history
+rm -f /home/*/.bash_history
+rm -rf /home/*/.cache/*
+
+find /var/log -type f -exec truncate -s 0 {} + 2>/dev/null || true
+rm -rf /var/lib/systemd/coredump/*
+
+: > /etc/machine-id
+if [ -f /var/lib/dbus/machine-id ] && [ ! -L /var/lib/dbus/machine-id ]; then
+  : > /var/lib/dbus/machine-id
+fi
+rm -f /etc/ssh/ssh_host_*
+rm -rf /var/lib/oxygenforge
+
+sync
+exit 0

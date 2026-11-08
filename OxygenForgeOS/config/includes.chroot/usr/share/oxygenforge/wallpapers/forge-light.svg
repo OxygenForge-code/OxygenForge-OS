@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="2560" height="1440" viewBox="0 0 2560 1440">
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7f0e8"/>
+      <stop offset="0.55" stop-color="#f1e6db"/>
+      <stop offset="1" stop-color="#e7d6c7"/>
+    </linearGradient>
+    <radialGradient id="ember" cx="72%" cy="34%" r="58%">
+      <stop offset="0" stop-color="#d9925d" stop-opacity="0.42"/>
+      <stop offset="0.55" stop-color="#e6b58d" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#f7f0e8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette" cx="50%" cy="45%" r="78%">
+      <stop offset="0.58" stop-color="#6b4029" stop-opacity="0"/>
+      <stop offset="1" stop-color="#6b4029" stop-opacity="0.18"/>
+    </radialGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e6a06f"/>
+      <stop offset="0.45" stop-color="#c96a2b"/>
+      <stop offset="1" stop-color="#8f3e16"/>
+    </linearGradient>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a94f22" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#a94f22" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#6b4029" stroke-opacity="0.055" stroke-width="1"/>
+    </pattern>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="24"/>
+    </filter>
+  </defs>
+
+  <rect width="2560" height="1440" fill="url(#base)"/>
+  <rect width="2560" height="1440" fill="url(#grid)"/>
+  <rect width="2560" height="1440" fill="url(#ember)"/>
+
+  <g fill="none" stroke="#a94f22">
+    <circle cx="1840" cy="470" r="430" stroke-opacity="0.08" stroke-width="2"/>
+    <circle cx="1840" cy="470" r="352" stroke-opacity="0.13" stroke-width="2"/>
+    <circle cx="1840" cy="470" r="274" stroke-opacity="0.19" stroke-width="2"/>
+    <circle cx="1840" cy="470" r="196" stroke-opacity="0.28" stroke-width="1.5" stroke-dasharray="3 10"/>
+  </g>
+
+  <g transform="translate(1840 470)" filter="url(#soft)" opacity="0.8">
+    <circle r="210" fill="#d9925d" opacity="0.28"/>
+    <circle r="96" fill="#e6a06f" opacity="0.24"/>
+  </g>
+
+  <g transform="translate(1840 470)">
+    <circle r="150" fill="none" stroke="url(#mark)" stroke-width="11"/>
+    <path d="M 0 -132 L 40 -40 L 132 0 L 40 40 L 0 132 L -40 40 L -132 0 L -40 -40 Z"
+          fill="url(#mark)" opacity="0.96"/>
+    <circle cx="0" cy="0" r="21" fill="#f7f0e8" opacity="0.95"/>
+    <circle cx="228" cy="-188" r="13" fill="#a94f22" opacity="0.8"/>
+  </g>
+
+  <g>
+    <rect x="184" y="1160" width="388" height="2" fill="url(#rule)"/>
+    <text x="184" y="1096" fill="#2a1a12" font-family="'DejaVu Sans','Noto Sans',sans-serif"
+          font-size="92" font-weight="300" letter-spacing="10">OxygenForgeOS</text>
+    <text x="188" y="1208" fill="#7d4c2d" font-family="'DejaVu Sans','Noto Sans',sans-serif"
+          font-size="25" letter-spacing="9">FORGE 1.0</text>
+    <text x="188" y="1260" fill="#8d6a53" font-family="'DejaVu Sans','Noto Sans',sans-serif"
+          font-size="23" letter-spacing="3">Gizlilik odaklı Linux</text>
+  </g>
+
+  <rect width="2560" height="1440" fill="url(#vignette)"/>
+</svg>

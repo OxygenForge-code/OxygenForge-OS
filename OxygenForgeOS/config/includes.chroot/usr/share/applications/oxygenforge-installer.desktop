@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=OxygenForgeOS Kur
+Name[en]=Install OxygenForgeOS
+Comment=Sistemi diske kur
+Comment[en]=Install the system to disk
+Exec=oxygenforge-installer
+Icon=oxygenforge
+Terminal=true
+Categories=System;
+Keywords=install;kurulum;calamares;

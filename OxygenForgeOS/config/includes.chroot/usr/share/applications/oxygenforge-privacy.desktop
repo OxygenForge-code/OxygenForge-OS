@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=OxygenForge Gizlilik Merkezi
+Name[en]=OxygenForge Privacy Center
+Comment=DNS, güvenlik duvarı, MAC ve çökme dökümlerini yönet
+Comment[en]=Manage DNS, firewall, MAC randomization and crash dumps
+Exec=oxygenforge-privacy
+Icon=oxygenforge
+Terminal=false
+Categories=Settings;Security;System;
+Keywords=privacy;gizlilik;dns;firewall;guvenlik;
+StartupNotify=true

@@ -1,0 +1,7 @@
+linux-image-amd64
+intel-microcode
+amd64-microcode
+
+# Calamares needs the target bootloader binaries.
+grub-pc-bin
+grub-efi-amd64-bin

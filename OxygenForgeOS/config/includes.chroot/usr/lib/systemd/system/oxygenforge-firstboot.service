@@ -1,0 +1,14 @@
+[Unit]
+Description=OxygenForgeOS first boot setup
+Documentation=file:///usr/share/doc/oxygenforge/README.md
+After=local-fs.target
+Before=ssh.service
+ConditionPathExists=!/var/lib/oxygenforge/firstboot-done
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/oxygenforge-firstboot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,26 @@
+#!/bin/sh
+# Pick the Calamares sequence and sanity-check the installer configuration.
+set -eu
+
+if [ ! -d /etc/calamares ]; then
+  exit 0
+fi
+
+if [ -x /usr/bin/startxfce4 ]; then
+  ln -sfn settings-desktop.conf /etc/calamares/settings.conf
+else
+  ln -sfn settings-server.conf /etc/calamares/settings.conf
+fi
+
+chmod 0644 /etc/calamares/settings-desktop.conf \
+           /etc/calamares/settings-server.conf \
+           /etc/calamares/modules/*.conf \
+           /etc/calamares/branding/oxygenforge/branding.desc \
+           /etc/calamares/branding/oxygenforge/stylesheet.qss
+
+# The live installer needs a writable root and a working sudo path.
+if [ -x /usr/local/bin/oxygenforge-installer ]; then
+  chmod 0755 /usr/local/bin/oxygenforge-installer
+fi
+
+exit 0

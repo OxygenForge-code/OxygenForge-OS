@@ -1,0 +1,18 @@
+#!/bin/sh
+# Binary hook: add the OxygenForge theme to the generated live GRUB config.
+set -eu
+
+for cfg in binary/boot/grub/grub.cfg boot/grub/grub.cfg; do
+  [ -f "$cfg" ] || continue
+  if grep -q 'themes/oxygenforge/theme.txt' "$cfg"; then
+    continue
+  fi
+  {
+    echo 'insmod all_video'
+    echo 'set gfxmode=auto'
+    echo 'set theme=($root)/boot/grub/themes/oxygenforge/theme.txt'
+    echo 'export theme'
+    cat "$cfg"
+  } > "$cfg.tmp"
+  mv "$cfg.tmp" "$cfg"
+done

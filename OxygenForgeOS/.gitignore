@@ -1,0 +1,12 @@
+/out/
+/config/package-lists/*.list.chroot
+/config/binary/
+/config/bootstrap/
+/config/chroot/
+/config/common
+/config/source/
+/config/*.log
+/live-image-*.hybrid.iso
+*.iso
+*.iso.sha256
+__pycache__/

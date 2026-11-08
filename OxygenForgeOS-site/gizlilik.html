@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gizlilik Politikası — OxygenForgeOS</title>
+<meta name="description" content="OxygenForgeOS 1.0 ve OxygenForge web sitesinin gizlilik politikası: telemetri yok, hesap yok, çerez yok.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="sections.css">
+<link rel="stylesheet" href="liquid.css">
+</head>
+<body id="top">
+<nav class="nav"><a class="brand" href="index.html">OxygenForgeOS</a><div class="lk"><a href="index.html#releases">Sürümler</a><a href="index.html#verify">Doğrulama</a><a href="index.html#install">Kurulum</a><a href="gizlilik.html" aria-current="page">Gizlilik</a><a href="index.html#faq">SSS</a></div><a class="dl" href="index.html#top">İndir</a></nav>
+
+<div class="stage legal-stage">
+<main class="legal">
+  <header class="legal-head">
+    <p class="eyebrow">Yasal</p>
+    <h1>Gizlilik Politikası</h1>
+    <p class="legal-sub">OxygenForgeOS 1.0 “Forge” işletim sistemi ve OxygenForge web sitesi için geçerlidir.</p>
+    <p class="legal-meta">Son güncelleme: 8 Kasım 2026 · Sürüm 1.0 · Türkçe</p>
+  </header>
+
+  <article class="glass legal-card">
+    <div class="tldr" aria-label="Kısa özet">
+      <div><b>Telemetri yok</b><span>Kurulum ve kullanım verisi hiçbir sunucuya gönderilmez.</span></div>
+      <div><b>Hesap yok</b><span>İndirmek, kurmak ve kullanmak için kayıt gerekmez.</span></div>
+      <div><b>Çerez yok</b><span>Site analitik, reklam ve takip betiği kullanmaz.</span></div>
+      <div><b>Satış yok</b><span>Hiçbir veri satılmaz, reklam profili oluşturulmaz.</span></div>
+    </div>
+
+    <nav class="toc" aria-label="İçindekiler">
+      <a href="#kapsam">Kapsam</a>
+      <a href="#os">İşletim sistemi</a>
+      <a href="#ag">Ağ bağlantıları</a>
+      <a href="#yerel">Yerel veriler</a>
+      <a href="#ucuncu">Üçüncü taraflar</a>
+      <a href="#site">Web sitesi</a>
+      <a href="#haklar">Haklarınız</a>
+      <a href="#saklama">Saklama</a>
+      <a href="#guvenlik">Güvenlik</a>
+      <a href="#degisiklikler">Değişiklikler</a>
+      <a href="#iletisim">İletişim</a>
+    </nav>
+
+    <h2 id="kapsam">1. Kapsam</h2>
+    <p>Bu politika, OxygenForgeOS işletim sisteminin 1.0 “Forge” sürümünü ve <a href="index.html">OxygenForge web sitesini</a> kapsar. Politika, bu hizmetleri kullandığınızda hangi bilgilerin işlendiğini, hangilerinin işlenmediğini ve haklarınızı açıklar.</p>
+    <p>OxygenForgeOS, Debian 13 “trixie” tabanlı bir Linux dağıtımıdır. İşletim sistemiyle birlikte gelen üçüncü taraf uygulamalar (örneğin Firefox ESR, KeePassXC veya Debian paketleri) kendi gizlilik politikalarına tabidir. Bu uygulamaların davranışı bu politikanın kapsamı dışındadır; ilgili bölümde hangi dış bağlantıların oluşabileceğini açıklıyoruz.</p>
+    <p>Veri sorumlusu OxygenForge projesidir. Bu politika, kişisel verilerin işlenmesine ilişkin olarak 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ve uygulanabildiği ölçüde Avrupa Birliği Genel Veri Koruma Tüzüğü (GDPR) ile uyumlu bir bilgilendirme metni olarak hazırlanmıştır.</p>
+
+    <h2 id="os">2. İşletim sistemi: varsayılan olarak ne toplanır?</h2>
+    <p><strong>Hiçbir kullanım verisi toplanmaz.</strong> OxygenForgeOS; telemetri, kullanım istatistiği, cihaz parmak izi, reklam kimliği veya uzaktan izleme bileşeni içermez. Kurulum sırasında ve sonrasında OxygenForge’a ait bir sunucuya otomatik veri gönderilmez.</p>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Veri türü</th><th>Varsayılan davranış</th><th>Açıklama</th></tr></thead>
+        <tbody>
+          <tr><td>Telemetri / analitik</td><td>Yok</td><td>Hiçbir kullanım veya performans verisi gönderilmez.</td></tr>
+          <tr><td>Hesap / kimlik</td><td>Yok</td><td>Kurulum ve kullanım için hesap açmanız gerekmez.</td></tr>
+          <tr><td>Reklam kimliği</td><td>Yok</td><td>Reklam ağı, izleme pikseli veya profilleme yoktur.</td></tr>
+          <tr><td>Cihaz kimliği</td><td>Rastgele, yerel</td><td>Makine kimliği kurulumda rastgeleleştirilir; dışarı gönderilmez.</td></tr>
+          <tr><td>Çökme raporu</td><td>Kapalı</td><td>Çökme dökümleri diske yazılmaz. Gizlilik Merkezi’nden yalnızca yerel saklama açılabilir.</td></tr>
+          <tr><td>Konum</td><td>Kapalı</td><td>Firefox’un konum istekleri varsayılan olarak engellenir. Uygulamalar konumu yalnızca siz izin verirseniz kullanır.</td></tr>
+          <tr><td>Sistem günlükleri</td><td>Yalnızca yerel</td><td>journald günlükleri 200 MB ve 30 günle sınırlıdır; otomatik olarak dışarı aktarılmaz.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Güncellemeler</h3>
+    <p>Otomatik güncelleme varsayılan olarak kapalıdır. Güncellemeleri siz başlattığınızda paket yöneticisi Debian ve OxygenForge yansılarına bağlanır. Bu bağlantıda yansı sunucusu, her web isteğinde olduğu gibi IP adresinizi, istemci bilgisini ve hangi paketlerin istendiğini görebilir. OxygenForge bu bilgileri kendi sunucularında saklamaz; Debian yansılarının kendi saklama politikaları geçerlidir.</p>
+
+    <h3>Gizlilik Merkezi</h3>
+    <p>Gizlilik Merkezi; şifreli DNS’i, gelen bağlantı güvenlik duvarını, Wi-Fi MAC rastgeleleştirmesini ve yerel çökme dökümü saklamayı tek yerden yönetmenizi sağlar. Uygulama yalnızca yerel yapılandırma dosyalarını okur ve değiştirir; hiçbir veri toplamaz veya göndermez.</p>
+
+    <h2 id="ag">3. Ağ bağlantıları</h2>
+    <p>OxygenForgeOS, siz bir işlem başlatmadığınız sürece OxygenForge sunucularına bağlanmaz. Ancak işletim sisteminin çalışması için bazı üçüncü taraf uç noktalara bağlantı kurulabilir:</p>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Bileşen</th><th>Hedef</th><th>Ne zaman / ne görünür</th></tr></thead>
+        <tbody>
+          <tr><td>DNS</td><td>Quad9 (9.9.9.9, 2620:fe::fe)</td><td>Varsayılan olarak DNS-over-TLS ile. Quad9, sorguları ve IP adresinizi görür; kendi politikası geçerlidir. Gizlilik Merkezi’nden kapatılabilir.</td></tr>
+          <tr><td>Saat eşitleme</td><td>systemd-timesyncd / NTP havuzu</td><td>Açılışta ve periyodik olarak. NTP sunucusu IP adresinizi ve saat isteğinizi görür.</td></tr>
+          <tr><td>Paket güncellemeleri</td><td>Debian ve OxygenForge yansıları</td><td>Yalnızca siz güncelleme istediğinizde.</td></tr>
+          <tr><td>Firefox ESR</td><td>Mozilla ve seçtiğiniz arama motoru</td><td>Tarayıcıyı açtığınızda güvenlik ve uzantı güncellemeleri; arama yaptığınızda arama motoru. Firefox telemetrisi ve sponsorlu içerik kapalıdır.</td></tr>
+          <tr><td>Web sitesi</td><td>Siteyi barındıran sunucu</td><td>Sayfayı ziyaret ettiğinizde barındırma sağlayıcısının erişim günlükleri.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Bu bağlantıların hiçbiri OxygenForge’a kullanım profili oluşturma imkânı vermez. DNS’i kapatırsanız sistem, ağınızın sağladığı çözümleyiciyi kullanır; bu durumda yerel ağ yöneticiniz veya internet servis sağlayıcınız sorguları görebilir.</p>
+
+    <h2 id="yerel">4. Cihazınızda kalan veriler</h2>
+    <p>Aşağıdaki bilgiler yalnızca cihazınızda bulunur ve OxygenForge’a gönderilmez:</p>
+    <ul>
+      <li><strong>Dosyalarınız ve uygulama verileri:</strong> Siz silene kadar diskte kalır.</li>
+      <li><strong>Firefox profili:</strong> Geçmiş, yer imleri, parolalar ve site verileri yerel profilde tutulur.</li>
+      <li><strong>Sistem günlükleri:</strong> journald’nin yerel günlükleri; 200 MB ve 30 gün sınırıyla.</li>
+      <li><strong>Makine ve ağ kimlikleri:</strong> Rastgeleleştirilmiş makine kimliği, SSH ana makineleri ve ağ bağlantı profilleri.</li>
+      <li><strong>Gizlilik Merkezi ayarları:</strong> Yalnızca yerel yapılandırma dosyalarında.</li>
+    </ul>
+    <p>Kurulum sırasında tam disk şifrelemesini (LUKS) açmanız önerilir. Şifreleme açıksa cihaz kapalıyken veya kurtarma anahtarı olmadan diskteki verilere erişilemez. Kurtarma anahtarını cihazdan ayrı, güvenli bir yerde saklayın; OxygenForge anahtarınızı görmez ve kurtaramaz.</p>
+    <p>Çökme dökümleri varsayılan olarak kapalıdır. Gizlilik Merkezi’nden açarsanız dökümler yalnızca cihazınızda, 200 MB sınırıyla saklanır ve otomatik olarak hiçbir yere gönderilmez.</p>
+
+    <h2 id="ucuncu">5. Üçüncü taraf yazılımlar ve hizmetler</h2>
+    <p>OxygenForgeOS, Debian arşivinden gelen özgür yazılımları ve bazı donanım üreticisi aygıt yazılımlarını içerir. Bu bileşenler kendi gizlilik politikalarına tabidir. Öne çıkanlar:</p>
+    <ul>
+      <li><strong>Firefox ESR:</strong> Mozilla’nın gizlilik politikası. OxygenForgeOS, telemetriyi, çalışma anketlerini, sponsorlu içeriği ve konum isteklerini varsayılan olarak kapatır. Tarayıcı yine de güvenlik güncellemeleri ve uzantı listeleri için Mozilla’ya bağlanabilir.</li>
+      <li><strong>KeePassXC:</strong> Parola kasası tamamen yereldir; bulut eşitleme varsayılan olarak kapalıdır.</li>
+      <li><strong>Debian paketleri:</strong> Paketlerin kendi ağ davranışları ve lisans/gizlilik koşulları geçerlidir.</li>
+      <li><strong>Donanım aygıt yazılımı:</strong> Wi-Fi, grafik ve benzeri sürücüler cihaz üreticisinin koşullarına tabidir. OxygenForgeOS bu sürücülere telemetri eklemez; ancak üretici yazılımının kendi tanılama davranışı garanti edilemez.</li>
+    </ul>
+    <p>OxygenForgeOS’ta reklam yazılımı, önceden yüklenmiş izleme SDK’sı veya zorunlu çevrimiçi hesap bulunmaz.</p>
+
+    <h2 id="site">6. OxygenForge web sitesi</h2>
+    <p>Bu site statik dosyalardan oluşur. Sitede:</p>
+    <ul>
+      <li>çerez, analitik, reklam veya sosyal medya takip betiği <strong>yoktur</strong>;</li>
+      <li>harici font, harici görsel veya gömülü video <strong>yoktur</strong>;</li>
+      <li>haber bülteni, üyelik veya kullanıcı hesabı <strong>yoktur</strong>;</li>
+      <li>tarayıcınızda kalıcı veri tutulmaz; site <code>localStorage</code> veya benzeri bir depolama kullanmaz.</li>
+    </ul>
+    <p>İndirme sayfasındaki mimari önerisi, tarayıcınızın <code>navigator.userAgentData</code> bilgisiyle <strong>yalnızca cihazınızda</strong> hesaplanır; bu bilgi sunucuya gönderilmez. İndirme bağlantılarında takip parametresi bulunmaz.</p>
+    <p>Siteyi barındıran sağlayıcı, hizmetin doğal bir parçası olarak erişim günlükleri tutabilir: IP adresi, tarih/saat, istenen sayfa, tarayıcı bilgisi ve hata kayıtları. Bu günlükler OxygenForge tarafından pazarlama veya profilleme amacıyla kullanılmaz; güvenlik, kötüye kullanımın önlenmesi ve hizmetin sürdürülmesi amacıyla sınırlı süreyle tutulur. Barındırma sağlayıcısının saklama süresi ve politikası kendi koşullarına tabidir.</p>
+
+    <h2 id="haklar">7. Haklarınız ve hukuki dayanaklar</h2>
+    <p>KVKK ve uygulanabildiği ölçüde GDPR kapsamında; kişisel verilerinizin işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme, işlenme amacını öğrenme, düzeltilmesini veya silinmesini isteme, işlemeye itiraz etme, kısıtlama talep etme ve veri taşınabilirliği haklarına sahipsiniz. Ayrıca yetkili veri koruma kurumuna şikâyet edebilirsiniz.</p>
+    <p>OxygenForgeOS varsayılan olarak kişisel veri toplamadığı için çoğu durumda erişilecek veya silinecek bir sunucu kaydı bulunmaz. Yine de bu politika veya veri işleme hakkında sorunuz varsa <a href="#iletisim">İletişim</a> bölümünden bize ulaşabilirsiniz.</p>
+    <p>İşleme faaliyetleri; hizmetin güvenliğini sağlamak için meşru menfaat, yalnızca sizin başlattığınız iletişim için açık rıza ve yasal yükümlülüklerin yerine getirilmesi hukuki dayanaklarına göre yürütülür. Otomatik karar verme veya profilleme yapılmaz.</p>
+
+    <h2 id="saklama">8. Veri paylaşımı ve saklama</h2>
+    <p>Kişisel verileriniz satılmaz, kiralanmaz veya pazarlama amacıyla üçüncü taraflarla paylaşılmaz. Veriler yalnızca aşağıdaki sınırlı durumlarda işlenebilir:</p>
+    <ul>
+      <li><strong>Barındırma ve altyapı:</strong> Siteyi çalıştıran sağlayıcı, hizmeti sunmak için teknik erişim günlükleri tutabilir.</li>
+      <li><strong>Yasal zorunluluk:</strong> Yetkili bir makamın hukuka uygun talebi hâlinde, yürürlükteki mevzuatın gerektirdiği ölçüde.</li>
+      <li><strong>Güvenlik:</strong> Saldırı, kötüye kullanım veya hukuki hakların korunması için gerekliyse.</li>
+    </ul>
+    <p>OxygenForge’un merkezî bir kullanıcı veritabanı yoktur. Site günlükleri barındırma sağlayıcısında kısa süreyle tutulur. Bize gönüllü olarak yazdığınız e-postalar, talebiniz sonuçlandıktan sonra en fazla 12 ay saklanır ve ardından silinir; yasal bir yükümlülük varsa daha uzun süre tutulabilir.</p>
+    <p>Verileriniz yurt dışına aktarılırsa, barındırma sağlayıcısının bulunduğu ülke ve sağladığı güvenceler geçerli hukuk kurallarına göre değerlendirilir. OxygenForge, kendi adına tuttuğu veriler için uygun güvenceleri sağlar.</p>
+
+    <h2 id="guvenlik">9. Güvenlik</h2>
+    <p>OxygenForgeOS açık kaynak olarak geliştirilir ve tasarım gereği veri minimizasyonu uygular: toplanmayan veri sızdırılamaz. Alınan başlıca önlemler:</p>
+    <ul>
+      <li>Varsayılan olarak telemetri, hesap ve uzaktan izleme yok;</li>
+      <li>gelen bağlantıları reddeden nftables güvenlik duvarı;</li>
+      <li>DNS-over-TLS ve Wi-Fi MAC rastgeleleştirmesi;</li>
+      <li>çökme dökümlerinin varsayılan olarak kapalı olması;</li>
+      <li>yayınlanan ISO dosyaları için SHA-256 özeti ve mümkün olduğunda imza.</li>
+    </ul>
+    <p>Hiçbir sistem mutlak güvenlik sağlamaz. ISO’yu yalnızca resmî kaynaktan indirin ve Doğrulama bölümündeki adımlarla bütünlüğünü kontrol edin. Secure Boot imzası henüz sağlanmadığı için bazı sistemlerde Secure Boot’u kapatmanız gerekebilir.</p>
+
+    <h2 id="cocuklar">10. Çocukların gizliliği</h2>
+    <p>OxygenForgeOS ve bu site, çocuklardan bilerek kişisel veri toplamaz. Site hesap, yorum veya mesaj özelliği sunmadığı için çocuklardan veri toplanması söz konusu değildir. Bir çocuğa ait bilginin bize ulaştığını fark edersek, talebiniz üzerine sileriz.</p>
+
+    <h2 id="degisiklikler">11. Politika değişiklikleri</h2>
+    <p>Bu politika, işletim sisteminin veya sitenin veri davranışı değiştiğinde güncellenir. Güncel sürüm her zaman bu sayfada yayımlanır ve sayfanın başındaki “Son güncelleme” tarihi değiştirilir. Önemli değişiklikler sürüm notlarında ve site ana sayfasında ayrıca duyurulur.</p>
+
+    <h2 id="iletisim">12. İletişim</h2>
+    <p>Bu politikayla ilgili sorular, KVKK/GDPR başvuruları ve veri silme talepleri için:</p>
+    <div class="contact-card">
+      <b>OxygenForge projesi — Gizlilik</b>
+      <span>E-posta: <a href="mailto:privacy@oxygenforge.example">privacy@oxygenforge.example</a></span>
+      <span>Güvenlik bildirimleri: <a href="mailto:security@oxygenforge.example">security@oxygenforge.example</a></span>
+    </div>
+    <p style="margin-top:16px">Başvurunuzu kimliğinizi doğrulayacak yeterli bilgiyle birlikte gönderin. Talebiniz en geç 30 gün içinde yanıtlanır.</p>
+  </article>
+</main>
+</div>
+
+<footer class="foot">
+  <p>© 2026 OxygenForge. Tüm hakları saklıdır.</p>
+  <p class="fl"><a href="gizlilik.html">Gizlilik Politikası</a><span>·</span><a href="index.html#verify">Dosya doğrulama</a><span>·</span><a href="index.html#privacy">İşletim sistemi gizliliği</a></p>
+</footer>
+<script src="glass.js"></script>
+</body>
+</html>

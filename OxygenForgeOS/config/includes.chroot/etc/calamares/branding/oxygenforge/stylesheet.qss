@@ -1,0 +1,147 @@
+/* OxygenForgeOS Calamares — liquid glass installer skin. */
+
+QWidget {
+    font-family: "Noto Sans", "DejaVu Sans", sans-serif;
+    color: #f6ece4;
+}
+
+QMainWindow, QDialog {
+    background-color: #1b110c;
+}
+
+#sidebarApp {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 #2a1810, stop:0.55 #1b110c, stop:1 #120b08);
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+QPushButton {
+    border-radius: 12px;
+    padding: 7px 20px;
+    min-height: 26px;
+    color: #f6ece4;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 rgba(255, 255, 255, 0.12), stop:1 rgba(255, 255, 255, 0.04));
+}
+
+QPushButton:hover {
+    border-color: rgba(240, 177, 132, 0.55);
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+        stop:0 rgba(255, 255, 255, 0.18), stop:1 rgba(240, 177, 132, 0.10));
+}
+
+QPushButton:pressed {
+    background-color: rgba(185, 96, 44, 0.24);
+}
+
+QPushButton:disabled {
+    color: rgba(246, 236, 228, 0.38);
+    border-color: rgba(255, 255, 255, 0.07);
+}
+
+QLineEdit, QComboBox, QSpinBox, QDoubleSpinBox, QTextEdit, QPlainTextEdit {
+    border-radius: 10px;
+    padding: 6px 10px;
+    min-height: 24px;
+    color: #f6ece4;
+    selection-background-color: rgba(240, 177, 132, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.07);
+}
+
+QLineEdit:focus, QComboBox:focus, QSpinBox:focus,
+QDoubleSpinBox:focus, QTextEdit:focus, QPlainTextEdit:focus {
+    border-color: rgba(240, 177, 132, 0.7);
+    background-color: rgba(255, 255, 255, 0.10);
+}
+
+QComboBox::drop-down {
+    border: 0;
+    width: 24px;
+}
+
+QComboBox QAbstractItemView {
+    color: #f6ece4;
+    background-color: #24140d;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    selection-background-color: rgba(240, 177, 132, 0.28);
+    outline: 0;
+}
+
+QListView, QTreeView, QTableView {
+    color: #f6ece4;
+    background-color: rgba(0, 0, 0, 0.16);
+    alternate-background-color: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    outline: 0;
+}
+
+QListView::item:selected, QTreeView::item:selected, QTableView::item:selected {
+    color: #fff;
+    background-color: rgba(240, 177, 132, 0.26);
+    border-radius: 7px;
+}
+
+QProgressBar {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.06);
+    text-align: center;
+    color: #f6ece4;
+}
+
+QProgressBar::chunk {
+    border-radius: 7px;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #b9602c, stop:1 #f0b184);
+}
+
+QToolTip {
+    color: #f6ece4;
+    background-color: #24140d;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    padding: 5px 8px;
+}
+
+QScrollBar:vertical {
+    background: transparent;
+    width: 10px;
+    margin: 2px;
+}
+
+QScrollBar::handle:vertical {
+    background: rgba(255, 255, 255, 0.20);
+    border-radius: 5px;
+    min-height: 28px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: rgba(240, 177, 132, 0.55);
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0;
+}
+
+QScrollBar:horizontal {
+    background: transparent;
+    height: 10px;
+    margin: 2px;
+}
+
+QScrollBar::handle:horizontal {
+    background: rgba(255, 255, 255, 0.20);
+    border-radius: 5px;
+    min-width: 28px;
+}
+
+QScrollBar::handle:horizontal:hover {
+    background: rgba(240, 177, 132, 0.55);
+}
+
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+    width: 0;
+}

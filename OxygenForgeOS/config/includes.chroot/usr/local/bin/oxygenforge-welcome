@@ -1,0 +1,216 @@
+#!/usr/bin/env python3
+"""OxygenForgeOS welcome window for the live session and first login."""
+
+import os
+import shutil
+import subprocess
+import sys
+
+import gi
+
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gdk, Gtk  # noqa: E402
+
+LIVE = os.path.isdir("/run/live")
+MARKER = os.path.expanduser("~/.config/oxygenforge/welcome-shown")
+
+
+def command_exists(name):
+    return shutil.which(name) is not None
+
+
+def launch(argv):
+    try:
+        subprocess.Popen(argv, start_new_session=True)
+        return True
+    except OSError:
+        return False
+
+
+class WelcomeWindow(Gtk.Window):
+    def __init__(self):
+        super().__init__(title="OxygenForgeOS'a hoş geldin")
+        self.set_default_size(760, 620)
+        self.connect("destroy", self.on_close)
+
+        header = Gtk.HeaderBar()
+        header.set_show_close_button(True)
+        header.props.title = "OxygenForgeOS"
+        header.props.subtitle = "1.0 Forge"
+        self.set_titlebar(header)
+
+        outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=20)
+        outer.set_border_width(28)
+        self.add(outer)
+
+        mark = Gtk.Label()
+        mark.set_markup("<span size='xx-large' weight='bold'>OxygenForgeOS</span>")
+        mark.set_xalign(0)
+        outer.pack_start(mark, False, False, 0)
+
+        subtitle = Gtk.Label()
+        subtitle.set_xalign(0)
+        subtitle.set_line_wrap(True)
+        subtitle.get_style_context().add_class("lead")
+        subtitle.set_text(
+            "Gizlilik odaklı, Debian tabanlı Linux. Telemetri yok, hesap yok, "
+            "reklam kimliği yok. Her şey bu cihazda kalır."
+        )
+        outer.pack_start(subtitle, False, False, 0)
+
+        if LIVE:
+            live_note = Gtk.Label()
+            live_note.set_xalign(0)
+            live_note.set_line_wrap(True)
+            live_note.get_style_context().add_class("note-box")
+            live_note.set_text(
+                "Canlı oturumdasın. Kurmadan deneyebilirsin; yaptığın değişiklikler "
+                "yeniden başlatınca kaybolur."
+            )
+            outer.pack_start(live_note, False, False, 0)
+
+        grid = Gtk.Grid()
+        grid.set_column_spacing(14)
+        grid.set_row_spacing(14)
+        grid.set_column_homogeneous(True)
+        outer.pack_start(grid, True, True, 0)
+
+        cards = []
+        if LIVE and command_exists("calamares"):
+            cards.append(
+                (
+                    "Sistemi kur",
+                    "Diskini bölümle, kullanıcını oluştur ve istersen tam disk "
+                    "şifrelemesini (LUKS) aç.",
+                    self.on_install,
+                )
+            )
+        cards.append(
+            (
+                "Gizlilik Merkezi",
+                "Şifreli DNS, güvenlik duvarı, MAC rastgeleleştirme ve çökme "
+                "dökümlerini tek yerden yönet.",
+                self.on_privacy,
+            )
+        )
+        if command_exists("firefox-esr"):
+            cards.append(
+                (
+                    "Firefox ESR",
+                    "Telemetri, sponsorlu içerik ve çalışma anketleri kapalı "
+                    "olarak hazırlanmış tarayıcı.",
+                    lambda: launch(["firefox-esr"]),
+                )
+            )
+        if command_exists("xfce4-terminal"):
+            cards.append(
+                (
+                    "Terminal",
+                    "Sistemi keşfet. Yardım için: oxygenforge-privacy, "
+                    "oxygenforge-installer.",
+                    lambda: launch(["xfce4-terminal"]),
+                )
+            )
+
+        for index, (title, description, callback) in enumerate(cards):
+            grid.attach(self.make_card(title, description, callback), index % 2, index // 2, 1, 1)
+
+        footer = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        privacy = Gtk.Label()
+        privacy.set_xalign(0)
+        privacy.set_line_wrap(True)
+        privacy.get_style_context().add_class("dim")
+        privacy.set_text(
+            "Hiçbir kullanım verisi gönderilmez. Güncellemeler yalnızca sen "
+            "istediğinde denetlenir."
+        )
+        footer.pack_start(privacy, True, True, 0)
+
+        close_button = Gtk.Button(label="Başla")
+        close_button.connect("clicked", lambda _button: self.destroy())
+        footer.pack_end(close_button, False, False, 0)
+        outer.pack_start(footer, False, False, 0)
+
+    def make_card(self, title, description, callback):
+        button = Gtk.Button()
+        button.set_relief(Gtk.ReliefStyle.NONE)
+        button.get_style_context().add_class("welcome-card")
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        box.set_border_width(16)
+        heading = Gtk.Label()
+        heading.set_xalign(0)
+        heading.set_markup(f"<span weight='bold' size='large'>{title}</span>")
+        body = Gtk.Label(label=description)
+        body.set_xalign(0)
+        body.set_line_wrap(True)
+        body.get_style_context().add_class("dim")
+        box.pack_start(heading, False, False, 0)
+        box.pack_start(body, False, False, 0)
+        button.add(box)
+        button.connect("clicked", lambda _button: callback())
+        return button
+
+    def on_install(self):
+        if not launch(["sudo", "-n", "calamares"]):
+            self.show_error(
+                "Kurulum başlatılamadı. Terminalde `sudo calamares` komutunu dene."
+            )
+
+    def on_privacy(self):
+        if not launch(["oxygenforge-privacy"]):
+            self.show_error("Gizlilik Merkezi başlatılamadı.")
+
+    def show_error(self, message):
+        dialog = Gtk.MessageDialog(
+            transient_for=self,
+            flags=0,
+            message_type=Gtk.MessageType.ERROR,
+            buttons=Gtk.ButtonsType.CLOSE,
+            text="İşlem başlatılamadı",
+        )
+        dialog.format_secondary_text(message[:1200])
+        dialog.run()
+        dialog.destroy()
+
+    def on_close(self, _window):
+        try:
+            os.makedirs(os.path.dirname(MARKER), exist_ok=True)
+            with open(MARKER, "w", encoding="utf-8") as handle:
+                handle.write("shown\n")
+        except OSError:
+            pass
+        Gtk.main_quit()
+
+
+CSS = b"""
+window { background-color: #1b110c; color: #f6ece4; }
+headerbar { background-color: #24140d; color: #f6ece4; }
+.lead { color: rgba(246, 236, 228, 0.78); font-size: 14px; }
+.note-box { background-color: rgba(240, 177, 132, 0.13); border: 1px solid rgba(240, 177, 132, 0.32);
+            border-radius: 12px; padding: 12px 14px; color: #f6d7bf; }
+.welcome-card { background-color: rgba(255, 255, 255, 0.055); border: 1px solid rgba(255, 255, 255, 0.10);
+                border-radius: 16px; }
+.welcome-card:hover { background-color: rgba(255, 255, 255, 0.09); }
+.dim { color: rgba(246, 236, 228, 0.62); font-size: 12px; }
+"""
+
+
+def main():
+    if not LIVE and os.path.exists(MARKER):
+        return 0
+
+    provider = Gtk.CssProvider()
+    provider.load_from_data(CSS)
+    Gtk.StyleContext.add_provider_for_screen(
+        Gdk.Screen.get_default(),
+        provider,
+        Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
+    )
+    window = WelcomeWindow()
+    window.show_all()
+    Gtk.main()
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,49 @@
+# OxygenForgeOS Desktop edition
+task-xfce-desktop
+xorg
+dbus-x11
+lightdm
+lightdm-gtk-greeter
+librsvg2-common
+
+xfce4
+xfce4-terminal
+xfce4-notifyd
+xfce4-power-manager
+xfce4-pulseaudio-plugin
+xfce4-screenshooter
+xfce4-taskmanager
+thunar
+thunar-archive-plugin
+file-roller
+mousepad
+ristretto
+galculator
+network-manager-gnome
+pavucontrol
+papirus-icon-theme
+fonts-noto-color-emoji
+
+# Sound and secrets
+pipewire
+pipewire-pulse
+wireplumber
+gnome-keyring
+
+# Applications chosen for the privacy story
+firefox-esr
+keepassxc
+
+# Printing (cups-browsed is masked in the services hook)
+cups
+system-config-printer
+
+# Installation and disk tools
+calamares
+gparted
+
+# Liquid glass compositor (blur, rounded corners, soft shadows)
+picom
+
+# Boot branding
+plymouth

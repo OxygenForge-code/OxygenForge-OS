@@ -1,0 +1,25 @@
+#!/bin/bash
+# Launch Calamares. On the desktop live session the display is already there;
+# on the server live image this starts a minimal X server for the installer.
+set -euo pipefail
+
+if [ "$(id -u)" -ne 0 ]; then
+  exec sudo -- "$0" "$@"
+fi
+
+if ! command -v calamares >/dev/null 2>&1; then
+  echo "Calamares kurulu değil." >&2
+  exit 1
+fi
+
+if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
+  exec calamares "$@"
+fi
+
+if ! command -v xinit >/dev/null 2>&1; then
+  echo "Grafik kurulum için xinit gerekli." >&2
+  echo "Kurulum olmadan canlı sistemi kullanabilirsin." >&2
+  exit 1
+fi
+
+exec xinit /usr/bin/calamares -- :0 -nolisten tcp vt7

@@ -1,0 +1,32 @@
+#!/bin/sh
+# Privacy defaults that are easier to enforce after package installation.
+set -eu
+
+for package in popularity-contest apport whoopsie; do
+  if dpkg -s "$package" >/dev/null 2>&1; then
+    DEBIAN_FRONTEND=noninteractive apt-get -y purge "$package" >/dev/null 2>&1 || true
+  fi
+done
+
+rm -rf /var/lib/popularity-contest
+
+# Automatic background update checks are opt-in. The user can enable them in
+# the terminal with `sudo dpkg-reconfigure unattended-upgrades`.
+rm -f /etc/apt/apt.conf.d/20auto-upgrades
+systemctl disable apt-daily.timer apt-daily-upgrade.timer >/dev/null 2>&1 || true
+systemctl disable unattended-upgrades.service >/dev/null 2>&1 || true
+
+# Never ship a machine identity or SSH host keys in the image.
+: > /etc/machine-id
+if [ -f /var/lib/dbus/machine-id ] && [ ! -L /var/lib/dbus/machine-id ]; then
+  : > /var/lib/dbus/machine-id
+fi
+rm -f /etc/ssh/ssh_host_*
+
+# Crash dumps stay off until the user turns them on in the Privacy Center.
+rm -rf /var/lib/systemd/coredump/*
+
+# Root-only helper.
+chmod 0700 /usr/libexec/oxygenforge-privacy-helper
+
+exit 0

@@ -1,0 +1,20 @@
+#!/bin/sh
+# OxygenForgeOS liquid glass session hook.
+# XFCE starts xfwm4 with its own compositor; we hand compositing to picom so
+# windows can have real background blur, rounded corners and soft shadows.
+set -u
+
+# Let xfwm4 and the panel finish starting before changing the compositor.
+sleep 1
+
+if command -v xfconf-query >/dev/null 2>&1; then
+  xfconf-query -c xfwm4 -p /general/use_compositing -s false >/dev/null 2>&1 || true
+fi
+
+if command -v picom >/dev/null 2>&1; then
+  if ! pgrep -x picom >/dev/null 2>&1; then
+    picom --config /etc/xdg/picom.conf --daemon >/dev/null 2>&1 || true
+  fi
+fi
+
+exit 0

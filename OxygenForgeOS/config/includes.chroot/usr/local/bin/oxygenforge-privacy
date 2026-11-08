@@ -1,0 +1,356 @@
+#!/usr/bin/env python3
+"""OxygenForge Gizlilik Merkezi.
+
+A small GTK3 control panel for the privacy defaults that ship with
+OxygenForgeOS. It never sends data anywhere; the helper applies local system
+changes with pkexec (or passwordless sudo in the live session).
+"""
+
+import os
+import shutil
+import subprocess
+import sys
+
+import gi
+
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gdk, Gtk  # noqa: E402
+
+HELPER = "/usr/libexec/oxygenforge-privacy-helper"
+LIVE = os.path.isdir("/run/live")
+
+RESOLVED_CONF = "/etc/systemd/resolved.conf.d/90-oxygenforge.conf"
+MAC_CONF = "/etc/NetworkManager/conf.d/90-oxygenforge-privacy.conf"
+COREDUMP_CONF = "/etc/systemd/coredump.conf.d/90-oxygenforge.conf"
+
+
+def read_conf(path):
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            return handle.read()
+    except OSError:
+        return ""
+
+
+def unit_active(unit):
+    return subprocess.run(
+        ["systemctl", "is-active", "--quiet", unit],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    ).returncode == 0
+
+
+def dns_enabled():
+    return "DNSOverTLS=yes" in read_conf(RESOLVED_CONF) and unit_active("systemd-resolved")
+
+
+def firewall_enabled():
+    return unit_active("nftables")
+
+
+def mac_enabled():
+    return "wifi.cloned-mac-address=random" in read_conf(MAC_CONF)
+
+
+def coredumps_enabled():
+    return "Storage=none" not in read_conf(COREDUMP_CONF)
+
+
+def privileged_helper(feature, value):
+    command = [HELPER, feature, value]
+    if LIVE and shutil.which("sudo"):
+        command = ["sudo", "-n"] + command
+    else:
+        command = ["pkexec"] + command
+    return subprocess.run(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=False,
+    )
+
+
+def pill(text, good):
+    label = Gtk.Label(label=text)
+    label.set_xalign(0.5)
+    context = label.get_style_context()
+    context.add_class("pill")
+    context.add_class("pill-good" if good else "pill-bad")
+    return label
+
+
+class ToggleRow(Gtk.ListBoxRow):
+    def __init__(self, window, key, title, description):
+        super().__init__()
+        self.window = window
+        self.key = key
+        self._syncing = False
+
+        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=16)
+        box.set_margin_top(14)
+        box.set_margin_bottom(14)
+        box.set_margin_start(16)
+        box.set_margin_end(16)
+        box.get_style_context().add_class("privacy-row")
+
+        text = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=3)
+        text.set_hexpand(True)
+        self.title = Gtk.Label(label=title)
+        self.title.set_xalign(0)
+        self.title.get_style_context().add_class("row-title")
+        self.detail = Gtk.Label(label=description)
+        self.detail.set_xalign(0)
+        self.detail.set_line_wrap(True)
+        self.detail.get_style_context().add_class("dim")
+        text.pack_start(self.title, False, False, 0)
+        text.pack_start(self.detail, False, False, 0)
+
+        right = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        self.state_pill = pill("Kontrol ediliyor", False)
+        self.switch = Gtk.Switch()
+        self.switch.set_valign(Gtk.Align.CENTER)
+        self.switch.connect("notify::active", self.on_switch)
+        right.pack_start(self.state_pill, False, False, 0)
+        right.pack_start(self.switch, False, False, 0)
+
+        box.pack_start(text, True, True, 0)
+        box.pack_end(right, False, False, 0)
+        self.add(box)
+
+    def set_state(self, enabled, label=None):
+        self._syncing = True
+        self.switch.set_active(bool(enabled))
+        self._syncing = False
+        context = self.state_pill.get_style_context()
+        context.remove_class("pill-good")
+        context.remove_class("pill-bad")
+        context.add_class("pill-good" if enabled else "pill-bad")
+        self.state_pill.set_text(label or ("Açık" if enabled else "Kapalı"))
+
+    def on_switch(self, switch, _pspec):
+        if self._syncing:
+            return
+        desired = switch.get_active()
+        if self.key == "firewall" and not desired:
+            dialog = Gtk.MessageDialog(
+                transient_for=self.window,
+                flags=0,
+                message_type=Gtk.MessageType.WARNING,
+                buttons=Gtk.ButtonsType.OK_CANCEL,
+                text="Güvenlik duvarını kapatmak istiyor musun?",
+            )
+            dialog.format_secondary_text(
+                "Kapalıyken ağdaki diğer cihazlar bu bilgisayardaki açık "
+                "servislere doğrudan bağlanabilir."
+            )
+            response = dialog.run()
+            dialog.destroy()
+            if response != Gtk.ResponseType.OK:
+                self.set_state(True, "Açık")
+                return
+
+        result = privileged_helper(self.key, "on" if desired else "off")
+        if result.returncode != 0:
+            self.set_state(not desired, "Hata")
+            self.window.show_error(result.stderr.strip() or "Değişiklik uygulanamadı.")
+        self.window.refresh()
+
+
+class PrivacyWindow(Gtk.Window):
+    def __init__(self):
+        super().__init__(title="OxygenForge Gizlilik Merkezi")
+        self.set_default_size(720, 640)
+        self.set_border_width(0)
+        self.connect("destroy", Gtk.main_quit)
+
+        header = Gtk.HeaderBar()
+        header.set_show_close_button(True)
+        header.props.title = "Gizlilik Merkezi"
+        header.props.subtitle = "OxygenForgeOS 1.0"
+        self.set_titlebar(header)
+
+        outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
+        outer.set_border_width(24)
+        self.add(outer)
+
+        intro = Gtk.Label()
+        intro.set_xalign(0)
+        intro.set_line_wrap(True)
+        intro.set_markup(
+            "<span size='x-large' weight='bold'>Varsayılan olarak korumalı.</span>\n"
+            "<span alpha='70%'>OxygenForgeOS telemetri göndermez. Buradaki "
+            "ayarlar yalnızca bu cihazı etkiler ve hiçbir veri dışarı çıkmaz.</span>"
+        )
+        outer.pack_start(intro, False, False, 0)
+
+        self.banner = Gtk.Label()
+        self.banner.set_xalign(0)
+        self.banner.set_line_wrap(True)
+        self.banner.get_style_context().add_class("banner")
+        outer.pack_start(self.banner, False, False, 0)
+
+        listbox = Gtk.ListBox()
+        listbox.set_selection_mode(Gtk.SelectionMode.NONE)
+        listbox.get_style_context().add_class("privacy-list")
+        outer.pack_start(listbox, True, True, 0)
+
+        self.rows = {}
+        specs = [
+            (
+                "dns",
+                "Şifreli DNS",
+                "DNS sorguları Quad9'a TLS ile gider; yerel ağ ve ISS'in "
+                "sorguları okuyamaz. Kapalıyken sistem çözümleyicisi kullanılır.",
+            ),
+            (
+                "firewall",
+                "Gelen bağlantı güvenlik duvarı",
+                "İstenmeyen gelen bağlantılar reddedilir. Giden bağlantılar "
+                "etkilenmez; sunucu servisleri için kural eklemen gerekir.",
+            ),
+            (
+                "mac",
+                "Wi-Fi MAC rastgeleleştirme",
+                "Her ağda farklı bir donanım adresi kullanılır. Bazı kurumsal "
+                "ağlar kayıtlı MAC isteyebilir.",
+            ),
+            (
+                "crash",
+                "Çökme dökümlerini yerelde sakla",
+                "Varsayılan olarak kapalıdır: çökme dökümleri diske yazılmaz. "
+                "Açarsan yalnızca bu cihazda, 200 MB sınırıyla tutulur.",
+            ),
+        ]
+        for key, title, description in specs:
+            row = ToggleRow(self, key, title, description)
+            self.rows[key] = row
+            listbox.add(row)
+
+        buttons = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
+        refresh_button = Gtk.Button(label="Durumu yenile")
+        refresh_button.connect("clicked", lambda _button: self.refresh())
+        defaults_button = Gtk.Button(label="Varsayılanlara dön")
+        defaults_button.connect("clicked", self.on_defaults)
+        diagnostics_button = Gtk.Button(label="Ağ bilgisi")
+        diagnostics_button.connect("clicked", self.on_diagnostics)
+        buttons.pack_start(refresh_button, False, False, 0)
+        buttons.pack_start(defaults_button, False, False, 0)
+        buttons.pack_end(diagnostics_button, False, False, 0)
+        outer.pack_start(buttons, False, False, 0)
+
+        note = Gtk.Label()
+        note.set_xalign(0)
+        note.set_line_wrap(True)
+        note.get_style_context().add_class("dim")
+        note.set_text(
+            "Değişiklikler yönetici onayı ister. Bu araç hiçbir veri toplamaz, "
+            "hiçbir sunucuya bağlanmaz."
+        )
+        outer.pack_start(note, False, False, 0)
+
+        self.refresh()
+
+    def refresh(self):
+        dns = dns_enabled()
+        firewall = firewall_enabled()
+        mac = mac_enabled()
+        crash = coredumps_enabled()
+
+        self.rows["dns"].set_state(dns, "Quad9 · DoT" if dns else "Kapalı")
+        self.rows["firewall"].set_state(firewall, "Açık" if firewall else "Kapalı")
+        self.rows["mac"].set_state(mac, "Rastgele" if mac else "Kalıcı")
+        self.rows["crash"].set_state(crash, "Yerelde" if crash else "Kapalı")
+
+        protected = dns and firewall and mac and not crash
+        if protected:
+            self.banner.set_markup(
+                "<b>Koruma açık.</b> Telemetri yok, şifreli DNS etkin, güvenlik "
+                "duvarı açık, çökme dökümleri kapalı."
+            )
+            self.banner.get_style_context().remove_class("banner-warn")
+        else:
+            self.banner.set_markup(
+                "<b>Bazı korumalar kapalı.</b> Aşağıdaki satırlardan tek tek "
+                "açabilir veya varsayılanlara dönebilirsin."
+            )
+            self.banner.get_style_context().add_class("banner-warn")
+
+    def show_error(self, message):
+        dialog = Gtk.MessageDialog(
+            transient_for=self,
+            flags=0,
+            message_type=Gtk.MessageType.ERROR,
+            buttons=Gtk.ButtonsType.CLOSE,
+            text="Ayar uygulanamadı",
+        )
+        dialog.format_secondary_text(message[:1200])
+        dialog.run()
+        dialog.destroy()
+
+    def on_defaults(self, _button):
+        result = privileged_helper("reset", "on")
+        if result.returncode != 0:
+            self.show_error(result.stderr.strip() or "Varsayılanlar uygulanamadı.")
+        self.refresh()
+
+    def on_diagnostics(self, _button):
+        text = (
+            f"Şifreli DNS: {'açık' if dns_enabled() else 'kapalı'}\n"
+            f"Güvenlik duvarı: {'açık' if firewall_enabled() else 'kapalı'}\n"
+            f"MAC rastgeleleştirme: {'açık' if mac_enabled() else 'kapalı'}\n"
+            f"Çökme dökümleri: {'yerelde' if coredumps_enabled() else 'kapalı'}\n"
+            f"Telemetri: kapalı (tasarım gereği)\n\n"
+            "Ağ uç noktaları:\n"
+            "· DNS: Quad9 (9.9.9.9 / 2620:fe::fe), DNS-over-TLS\n"
+            "· Paket depoları: Debian ve OxygenForge yansıları\n"
+            "· Saat: systemd-timesyncd / NTP havuzu\n"
+            "· Firefox: Mozilla güvenlik ve uzantı güncellemeleri\n\n"
+            "Bu ekran hiçbir veri toplamaz; yalnızca yerel yapılandırmayı okur."
+        )
+        dialog = Gtk.MessageDialog(
+            transient_for=self,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.CLOSE,
+            text="Gizlilik durumu ve ağ uç noktaları",
+        )
+        dialog.format_secondary_text(text)
+        dialog.run()
+        dialog.destroy()
+
+
+CSS = b"""
+window { background-color: #1b110c; color: #f6ece4; }
+headerbar { background-color: #24140d; color: #f6ece4; }
+.banner { background-color: rgba(47, 107, 70, 0.24); border: 1px solid rgba(120, 210, 160, 0.35);
+          border-radius: 12px; padding: 12px 14px; }
+.banner-warn { background-color: rgba(140, 82, 35, 0.26); border-color: rgba(240, 177, 132, 0.45); }
+.privacy-list { background-color: transparent; }
+.privacy-row { background-color: rgba(255, 255, 255, 0.055); border: 1px solid rgba(255, 255, 255, 0.10);
+               border-radius: 14px; }
+.row-title { font-weight: 600; font-size: 14px; }
+.dim { color: rgba(246, 236, 228, 0.62); font-size: 12px; }
+.pill { border-radius: 999px; padding: 3px 10px; font-size: 10px; font-weight: 600; }
+.pill-good { background-color: rgba(47, 107, 70, 0.55); color: #d9ffe8; }
+.pill-bad { background-color: rgba(107, 47, 47, 0.55); color: #ffdcdc; }
+"""
+
+
+def main():
+    provider = Gtk.CssProvider()
+    provider.load_from_data(CSS)
+    Gtk.StyleContext.add_provider_for_screen(
+        Gdk.Screen.get_default(),
+        provider,
+        Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
+    )
+    window = PrivacyWindow()
+    window.show_all()
+    Gtk.main()
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

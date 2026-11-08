@@ -1,0 +1,16 @@
+   ____                 _              _____
+  / __ \_  ___  _____ _ _  ___ _ _  |  ___|__ _ _ _ ___
+ | |  | \ \/ / |/ / -_) ' \/ -_) ' \ | |_ / _ \ '_/ _ ` |
+ | |__| |>  <|   <\__|_||_\___|_||_||  _| (_) | | | (_| |
+  \____//_/\_\_|\_\___|_||_|   \_,_||_|  \___/_|  \__, |
+                                                   |___/
+
+  OxygenForgeOS 1.0 "Forge" — gizlilik odaklı Linux
+
+  · Telemetri yok, hesap yok, reklam kimliği yok.
+  · Gizlilik Merkezi:  oxygenforge-privacy
+  · Kurulum:           oxygenforge-installer
+  · Yardım:            /usr/share/doc/oxygenforge/README.md
+
+  Varsayılan olarak hiçbir kullanım verisi gönderilmez. Ağa yalnızca sen
+  istediğinde çıkılır: güncelleme, DNS (Quad9 DoT) ve saat eşitleme.
