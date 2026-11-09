@@ -5,7 +5,7 @@ const SITE = {
   codename: "Forge",
   repo: "https://github.com/OxygenForge-code/OxygenForge-OS",
   pages: "https://oxygenforge-code.github.io/OxygenForge-OS/",
-  releaseTag: "v1.0.0",
+  releaseTag: "V1",
   editions: {
     desktop: "Günlük kullanım için XFCE masaüstü, Calamares kurulum ve Gizlilik Merkezi.",
     server: "Konsol tabanlı sunucular için OpenSSH, nftables ve fail2ban."

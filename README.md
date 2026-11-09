@@ -8,7 +8,7 @@ Sürüm **1.0 “Forge”**; XFCE masaüstü, Calamares kurulum ve liquid glass 
 içerir.
 
 [Web sitesi](https://oxygenforge-code.github.io/OxygenForge-OS/) ·
-[ISO indir](https://github.com/OxygenForge-code/OxygenForge-OS/releases/tag/v1.0.0) ·
+[ISO indir](https://github.com/OxygenForge-code/OxygenForge-OS/releases/tag/V1) ·
 [Derleme rehberi](OxygenForgeOS/docs/BUILDING.md) ·
 [Gizlilik](OxygenForgeOS/docs/PRIVACY.md)
 
