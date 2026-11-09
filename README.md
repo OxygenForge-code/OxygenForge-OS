@@ -19,6 +19,8 @@ içerir.
 | [`OxygenForgeOS/`](OxygenForgeOS/) | `live-build` kaynak ağacı, Calamares, gizlilik araçları ve marka dosyaları |
 | [`OxygenForgeOS-site/`](OxygenForgeOS-site/) | Statik indirme sitesi; GitHub Pages’e otomatik yayınlanır |
 | [`.github/workflows/pages.yml`](.github/workflows/pages.yml) | Siteyi her değişiklikte GitHub Pages’e dağıtır |
+| [`.github/workflows/verify-release.yml`](.github/workflows/verify-release.yml) | Release ISO’larının boyut, SHA-256 ve indirme erişimini doğrular |
+| [`scripts/verify-release.mjs`](scripts/verify-release.mjs) | Aynı kontrolü yerelde çalıştırır |
 | `OxygenForgeOS/.github/workflows/build-iso.yml` | İsteğe bağlı ISO derleme iş akışı |
 
 ## İndir
@@ -33,6 +35,18 @@ içerir.
 
 - SHA-256: `5df795c7663c1053fa7dc652cda98c2cf7a412194ae8080a8b6c8ff45d74a1ab`
 - Kurulum ve sertleştirme: [Sunucu rehberi](https://oxygenforge-code.github.io/OxygenForge-OS/sunucu.html)
+
+## Yayın doğrulama
+
+Yayınlanan ISO’ların GitHub’daki boyutunu, SHA-256 özetini ve indirme
+bağlantısını kontrol etmek için:
+
+```bash
+node scripts/verify-release.mjs
+```
+
+`verify-release.yml` bu kontrolü her release yayınında, haftalık olarak ve
+manuel çalıştırmada yapar. Site içindeki yerel bağlantıları da denetler.
 
 ## Kaynaktan derle
 

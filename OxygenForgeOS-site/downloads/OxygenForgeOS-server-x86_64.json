@@ -1,0 +1,10 @@
+{
+  "edition": "server",
+  "arch": "x86_64",
+  "version": "1.0",
+  "file": "OxygenForgeOS-server-x86_64.iso",
+  "size": "1.1G",
+  "bytes": 1149714432,
+  "sha256": "5df795c7663c1053fa7dc652cda98c2cf7a412194ae8080a8b6c8ff45d74a1ab",
+  "built_at": "2026-11-09T14:11:20Z"
+}

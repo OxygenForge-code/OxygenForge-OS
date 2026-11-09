@@ -13,7 +13,20 @@ Tüm sürüm, özellik, SSS ve yol haritası verisi `config.js` içindedir.
 - `SITE.features`, `SITE.compare`, `SITE.roadmap`: ana sayfa bölümleri.
 
 ISO’yu repoya eklemeyin; GitHub’ın 100 MB dosya sınırı vardır. ISO’yu Releases’e
-yükleyip `SITE.releases` içindeki adresi güncelleyin.
+yükleyip `SITE.releases` içindeki adresi güncelleyin. Her ISO için
+`downloads/*.json` manifestini boyut ve SHA-256 ile güncel tutun; yayın kontrolü
+bu dosyaları kaynak alır.
+
+## Yayın kontrolü
+
+```bash
+node ../scripts/verify-release.mjs
+```
+
+Bu komut, yayınlanan ISO’ların GitHub’daki boyutunu ve SHA-256 özetini
+`downloads/*.json` ile karşılaştırır; indirme bağlantısını ve sitedeki yerel
+bağlantıları da denetler. `.github/workflows/verify-release.yml` aynı kontrolü
+release, haftalık zamanlanmış ve manuel çalıştırmalarda yapar.
 
 ## Yerel önizleme
 
