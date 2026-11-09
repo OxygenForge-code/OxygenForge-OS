@@ -29,6 +29,11 @@ içerir.
 - Platform: UEFI ve BIOS, 64 bit Intel/AMD
 - Not: ISO imzasızdır; Secure Boot kapatılmalıdır.
 
+**Server / x86_64**, 1.1 GB — konsol, nftables, fail2ban ve varsayılan kapalı SSH.
+
+- SHA-256: `5df795c7663c1053fa7dc652cda98c2cf7a412194ae8080a8b6c8ff45d74a1ab`
+- Kurulum ve sertleştirme: [Sunucu rehberi](https://oxygenforge-code.github.io/OxygenForge-OS/sunucu.html)
+
 ## Kaynaktan derle
 
 Debian 13 üzerinde:

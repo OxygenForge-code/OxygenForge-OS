@@ -20,7 +20,14 @@ const SITE = {
       },
       arm64: { url: "", size: "", sha256: "" }
     },
-    server:  { x86_64: { url: "", size: "", sha256: "" }, arm64: { url: "", size: "", sha256: "" } }
+    server: {
+      x86_64: {
+        url: "https://github.com/OxygenForge-code/OxygenForge-OS/releases/download/V1/OxygenForgeOS-server-x86_64.iso",
+        size: "1.1 GB",
+        sha256: "5df795c7663c1053fa7dc652cda98c2cf7a412194ae8080a8b6c8ff45d74a1ab"
+      },
+      arm64: { url: "", size: "", sha256: "" }
+    }
   },
   features: [
     ["shield", "Telemetri yok", "Kurulum ve kullanım verisi hiçbir sunucuya gönderilmez. Toplanmayan veri sızdırılamaz.", "Gizlilik"],
@@ -44,14 +51,14 @@ const SITE = {
       date: "Kasım 2026",
       state: "done",
       name: "Forge",
-      items: ["İlk genel sürüm", "Desktop ISO", "Gizlilik Merkezi", "Liquid glass masaüstü"]
+      items: ["İlk genel sürüm", "Desktop + Server ISO", "Gizlilik Merkezi", "Liquid glass masaüstü"]
     },
     {
       v: "1.1",
       date: "Planlanıyor",
       state: "next",
       name: "Signal",
-      items: ["ARM64 masaüstü imajı", "Sunucu ISO’su", "Secure Boot imzalama", "Daha geniş donanım testi"]
+      items: ["ARM64 masaüstü imajı", "Secure Boot imzalama", "Daha geniş donanım testi"]
     },
     {
       v: "1.2",
@@ -121,6 +128,7 @@ const SITE = {
     date: "8 Kasım 2026",
     items: [
       "İlk genel sürüm: Debian 13 tabanlı XFCE masaüstü.",
+      "Server / x86_64 ISO’su: konsol, nftables, fail2ban ve kapalı SSH.",
       "Calamares kurulum: LUKS, ext4/btrfs/xfs, UEFI ve BIOS.",
       "Gizlilik Merkezi: şifreli DNS, nftables, MAC rastgeleleştirme, çökme dökümleri.",
       "Liquid glass masaüstü: picom blur, yarı saydam paneller ve cam kurulum ekranı.",
@@ -135,6 +143,7 @@ const SITE = {
     ["Dosyanın bozulmadığını nasıl anlarım?", "Doğrulama bölümündeki komutu çalıştır ve çıktıyı beklenen SHA-256 değeriyle karşılaştır."],
     ["OxygenForgeOS telemetri gönderiyor mu?", "Hayır. Kurulum ve kullanım verisi toplanmaz; çökme dökümleri varsayılan olarak kapalıdır. Ağa yalnızca senin başlattığın güncelleme, DNS ve saat eşitleme için çıkılır."],
     ["Hangi veriler toplanıyor?", "Varsayılan olarak hiçbiri. Gizlilik Merkezi'nden şifreli DNS'i, güvenlik duvarını ve MAC rastgeleleştirmeyi yönetebilirsin. Ayrıntılar Gizlilik Politikası'nda."],
-    ["Katkıda bulunabilir miyim?", "Evet. Kaynak, derleme belgeleri ve sorun takibi GitHub’da. Hata bildirimi, çeviri, dokümantasyon ve paket testleri açık."]
+    ["Katkıda bulunabilir miyim?", "Evet. Kaynak, derleme belgeleri ve sorun takibi GitHub’da. Hata bildirimi, çeviri, dokümantasyon ve paket testleri açık."],
+    ["Sunucu sürümü var mı?", "Evet. Server / x86_64 ISO’su V1 sürümünde yayınlandı; kurulum ve SSH sertleştirme adımları Sunucu rehberinde."]
   ]
 };
