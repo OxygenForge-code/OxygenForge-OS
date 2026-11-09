@@ -146,3 +146,11 @@
   .err{padding:30px 22px}
 }
 @media(prefers-reduced-motion:reduce){.pulse{animation:none}}
+
+/* Server guide download panel */
+.server-dl{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:18px 20px;border-radius:18px}
+.server-dl>div{display:grid;gap:4px;min-width:230px;margin-right:auto}
+.server-dl b{font-size:13px;color:#fff;font-weight:500}
+.server-dl small{font-size:11.5px;color:rgba(255,255,255,.6)}
+.server-dl .btn{flex:none}
+@media(max-width:600px){.server-dl{align-items:stretch}.server-dl>div{min-width:100%}.server-dl .btn{justify-content:center}}
