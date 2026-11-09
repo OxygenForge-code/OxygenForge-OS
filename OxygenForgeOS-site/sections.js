@@ -11,7 +11,7 @@
   </article>`).join("");
 
   const cards = Object.keys(S.releases).map(e => `<article class="rc"><h3>${E[e]}</h3><p>${S.editions[e]}</p>` +
-    Object.keys(S.releases[e]).map(a => `<div class="rr"><div><b>${A[a]}</b><span>${S.releases[e][a].size || "Boyut eklenmedi"}</span></div><button type="button" data-e="${e}" data-a="${a}">İndir</button></div>`).join("") + `</article>`).join("");
+    Object.keys(S.releases[e]).map(a => `<div class="rr"><div><b>${A[a]}</b><span>${S.releases[e][a].size || "Boyut eklenmedi"}</span></div><button type="button" data-e="${e}" data-a="${a}">İndir</button></div>`).join("") + (e === "server" ? `<a class="guide-link" href="sunucu.html">Sunucu kurulum rehberi →</a>` : "") + `</article>`).join("");
 
   const compare = `<div class="glass cmp"><div class="cmp-row cmp-head"><b>Özellik</b><b>Desktop</b><b>Server</b></div>` +
     S.compare.map(r => `<div class="cmp-row"><b>${r[0]}</b><span>${r[1]}</span><span>${r[2]}</span></div>`).join("") + `</div>`;

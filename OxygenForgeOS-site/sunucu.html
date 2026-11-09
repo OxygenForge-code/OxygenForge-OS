@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sunucu rehberi — OxygenForgeOS</title>
+<meta name="description" content="OxygenForgeOS Server: canlı oturumda kurulum, ilk kontroller, SSH'ı güvenli açma, nftables ve gizlilik ayarları.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#1b110c">
+<link rel="canonical" href="https://oxygenforge-code.github.io/OxygenForge-OS/sunucu.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css?v=20261109f">
+<link rel="stylesheet" href="sections.css?v=20261109f">
+<link rel="stylesheet" href="liquid.css?v=20261109f">
+<link rel="stylesheet" href="extras.css?v=20261109f">
+</head>
+<body id="top">
+<div class="bg" aria-hidden="true"><canvas id="bg"></canvas></div>
+<nav class="nav"><a class="brand" href="index.html">OxygenForgeOS</a><div class="lk"><a href="index.html#features">Neden</a><a href="index.html#wizard">Sihirbaz</a><a href="index.html#releases">Sürümler</a><a href="index.html#verify">Doğrulama</a><a href="index.html#privacy">Gizlilik</a><a href="sunucu.html" aria-current="page">Sunucu</a></div><div class="navactions"><a class="gh" href="https://github.com/OxygenForge-code/OxygenForge-OS" target="_blank" rel="noopener">GitHub</a><a class="dl" href="index.html#releases">İndir</a></div></nav>
+
+<div class="stage legal-stage">
+<main class="legal">
+  <header class="legal-head">
+    <p class="eyebrow">Server · x86_64</p>
+    <h1>Konsolda güvenli bir sunucu.</h1>
+    <p class="legal-sub">OxygenForgeOS Server; masaüstü yüklemeden, varsayılan olarak kapalı SSH, nftables ve fail2ban ile gelir. Kurulumdan sonra yalnızca gerçekten ihtiyacın olan servisleri aç.</p>
+    <p class="legal-meta">Sunucu rehberi · Sürüm 1.0 · Türkçe</p>
+  </header>
+
+  <article class="glass legal-card">
+    <div class="callout"><p><strong>Önce oku:</strong> SSH varsayılan olarak kapalıdır ve güvenlik duvarı 22/tcp’yi açmaz. Uzak sunucuya kurulum yapıyorsan konsol/console erişimin olduğundan emin ol.</p></div>
+
+    <h2>1. Canlı oturumda kurulum</h2>
+    <p>ISO’dan açılan konsolda grafik Calamares kurulumunu başlat:</p>
+    <pre><code>sudo oxygenforge-installer</code></pre>
+    <p>Kurulum bittiğinde X ve Calamares hedeften kaldırılır; sistem konsol tabanlı kalır.</p>
+
+    <h2>2. İlk kontroller</h2>
+    <p>Kurulumdan sonra temel durumu doğrula:</p>
+    <pre><code>cat /etc/os-release
+systemctl status nftables systemd-resolved
+sudo nft list ruleset
+resolvectl status
+systemctl status ssh</code></pre>
+    <p><code>ssh</code> servisinin <strong>inactive</strong> olması beklenir. Bu bir hata değil, bilinçli varsayılandır.</p>
+
+    <h2>3. SSH’ı güvenli açma</h2>
+    <p>Önce kullanıcı parolanı ve tercihen bir SSH anahtarını hazırla. Anahtar kullanacaksan parola girişini kapat:</p>
+    <pre><code>sudo systemctl enable --now ssh
+sudo nft list ruleset</code></pre>
+    <p>Güvenlik duvarında 22/tcp’ye izin vermek için <code>/etc/nftables.conf</code> içindeki <code>chain input</code> bloğuna ekle:</p>
+    <pre><code>tcp dport 22 accept</code></pre>
+    <p>Ardından kuralları yeniden yükle ve fail2ban’i kontrol et:</p>
+    <pre><code>sudo systemctl restart nftables
+sudo systemctl status fail2ban
+sudo fail2ban-client status sshd</code></pre>
+
+    <h2>4. Gizlilik ayarları</h2>
+    <p>DNS-over-TLS ve gelen bağlantı güvenlik duvarını komut satırından yönet:</p>
+    <pre><code>sudo /usr/libexec/oxygenforge-privacy-helper dns on
+sudo /usr/libexec/oxygenforge-privacy-helper dns off
+sudo /usr/libexec/oxygenforge-privacy-helper firewall on
+sudo /usr/libexec/oxygenforge-privacy-helper firewall off</code></pre>
+    <p>Varsayılan DNS Quad9’dur (9.9.9.9 / 2620:fe::fe) ve DNS-over-TLS kullanır. Değiştirmek için Gizlilik Merkezi yardımcısını veya systemd-resolved yapılandırmasını kullan.</p>
+
+    <h2>5. Sertleştirme kontrol listesi</h2>
+    <ul>
+      <li>SSH için parola yerine anahtar kullan; <code>PasswordAuthentication no</code> yap.</li>
+      <li>Yalnızca gereken portları aç; varsayılan <code>drop</code> politikasını koru.</li>
+      <li>Düzenli yedek al; LUKS kullanıyorsan kurtarma anahtarını cihazdan ayrı sakla.</li>
+      <li>Otomatik güncelleme varsayılan kapalıdır; ayda bir <code>apt full-upgrade</code> ve yeniden başlatma planla.</li>
+      <li>Sunucuya masaüstü kurma; saldırı yüzeyini büyütür.</li>
+      <li>İzleme gerekiyorsa yalnızca kendi denetlediğin uç noktaya veri gönder.</li>
+    </ul>
+
+    <h2>6. Güncellemeler</h2>
+    <pre><code>sudo apt update
+sudo apt full-upgrade
+sudo needrestart</code></pre>
+    <p>Otomatik güvenlik güncellemesi bilinçli bir tercihtir ve düzenli ağ bağlantısı gerektirir. Varsayılan olarak açık değildir.</p>
+
+    <p class="note">Bu sayfa <a href="https://github.com/OxygenForge-code/OxygenForge-OS/blob/main/OxygenForgeOS/docs/SERVER.md" target="_blank" rel="noopener">docs/SERVER.md</a> ile birlikte güncellenir. Komutları uygulamadan önce kendi ortamına uyarladığından emin ol.</p>
+  </article>
+</main>
+</div>
+
+<footer class="foot">
+  <div class="foot-main">
+    <div class="foot-brand"><b>OxygenForgeOS</b><span>Gizlilik odaklı, Debian tabanlı Linux.</span></div>
+    <div class="foot-links"><a href="index.html#features">Neden</a><a href="index.html#releases">Sürümler</a><a href="index.html#install">Kurulum</a><a href="sunucu.html">Sunucu</a><a href="gizlilik.html">Gizlilik</a><a href="https://github.com/OxygenForge-code/OxygenForge-OS" target="_blank" rel="noopener">GitHub</a></div>
+  </div>
+  <p>© 2026 OxygenForge. Tüm hakları saklıdır.</p>
+  <p class="fl"><a href="gizlilik.html">Gizlilik Politikası</a><span>·</span><a href="index.html#verify">Dosya doğrulama</a><span>·</span><a href="sunucu.html">Sunucu rehberi</a></p>
+</footer>
+<script src="bg.js?v=20261109f"></script>
+<script src="glass.js?v=20261109f"></script>
+</body>
+</html>
