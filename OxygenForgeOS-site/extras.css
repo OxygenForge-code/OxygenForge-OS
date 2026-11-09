@@ -61,6 +61,9 @@
 .desk-dock i{width:26px;height:26px;border-radius:7px;background:linear-gradient(145deg,rgba(255,255,255,.22),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.13)}
 .desk-note{font-size:10.5px;color:rgba(255,255,255,.48);letter-spacing:.01em}.desk-note span{color:#f0b184}
 
+/* Tables must scroll inside their glass panel instead of being clipped by it. */
+.glass.tw{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+
 /* Comparison */
 .cmp{padding:8px 24px}
 .cmp-row{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:16px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:12.5px;align-items:center}
