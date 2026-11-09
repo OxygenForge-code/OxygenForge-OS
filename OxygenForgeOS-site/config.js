@@ -61,6 +61,49 @@ const SITE = {
       items: ["Topluluk yansıları", "Ek dil desteği", "Otomatik kurulum testleri", "Paket imzalama"]
     }
   ],
+  wizard: {
+    questions: [
+      {
+        key: "use",
+        title: "Nerede kullanacaksın?",
+        hint: "Bu, hangi imajı önereceğimizi belirler.",
+        options: [
+          { v: "desktop", t: "Günlük masaüstü", d: "Tarayıcı, ofis, medya ve günlük işler" },
+          { v: "server", t: "Sunucu / VPS", d: "Konsol, SSH ve ağ servisleri" }
+        ]
+      },
+      {
+        key: "arch",
+        title: "İşlemcin hangisi?",
+        hint: "Emin değilsen çoğu bilgisayar için Intel / AMD seçeneği doğrudur.",
+        options: [
+          { v: "x86_64", t: "Intel / AMD", d: "x86_64 · 64 bit" },
+          { v: "arm64", t: "Apple Silicon / ARM", d: "ARM64 · 64 bit" }
+        ]
+      },
+      {
+        key: "enc",
+        title: "Disk şifreleme?",
+        hint: "Kurulum sırasında LUKS tam disk şifrelemesini açabilirsin.",
+        options: [
+          { v: "yes", t: "Evet, LUKS istiyorum", d: "Kurtarma anahtarını ayrıca sakla" },
+          { v: "no", t: "Sonra karar vereceğim", d: "Kurulum ekranında yine açabilirsin" }
+        ]
+      }
+    ]
+  },
+  privacyDemo: [
+    { k: "dns", t: "Şifreli DNS", s: "Quad9 · DNS-over-TLS", on: true, d: "Sorguların ağda okunabilir metin olarak görünmez. Gizlilik Merkezi'nden kapatabilirsin." },
+    { k: "fw", t: "Güvenlik duvarı", s: "nftables · gelen bağlantılar", on: true, d: "İstenmeyen gelen bağlantılar varsayılan olarak reddedilir; yalnızca senin açtığın servisler geçer." },
+    { k: "mac", t: "MAC rastgeleleştirme", s: "Wi-Fi ağlarında", on: true, d: "Her ağda farklı bir donanım adresi kullanılır; fiziksel konum takibini zorlaştırır." },
+    { k: "crash", t: "Çökme dökümleri", s: "Yalnızca yerel · varsayılan kapalı", on: false, d: "Açarsan dökümler 200 MB sınırıyla yalnızca cihazında tutulur; hiçbir yere gönderilmez." }
+  ],
+  pipeline: [
+    { n: "01", t: "profiles", d: "Masaüstü, sunucu ve mimari paket listeleri seçilir." },
+    { n: "02", t: "live-build", d: "Debootstrap ile Debian tabanı kurulur, marka ve gizlilik dosyaları eklenir." },
+    { n: "03", t: "squashfs", d: "Kök dosya sistemi sıkıştırılır; Calamares ve açılış yapılandırması hazırlanır." },
+    { n: "04", t: "ISO", d: "BIOS + UEFI önyüklemeli, SHA-256 özetli tek dosya üretilir." }
+  ],
   requirements: [
     ["İşlemci", "64 bit, çift çekirdek", "64 bit, dört çekirdek"],
     ["Bellek", "2 GB", "4 GB veya üzeri"],
