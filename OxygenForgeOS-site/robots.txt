@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://oxygenforge-code.github.io/OxygenForge-OS/sitemap.xml

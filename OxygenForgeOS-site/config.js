@@ -2,6 +2,10 @@
 // bölümündeki url / size / sha256 alanlarını doldur.
 const SITE = {
   version: "1.0",
+  codename: "Forge",
+  repo: "https://github.com/OxygenForge-code/OxygenForge-OS",
+  pages: "https://oxygenforge-code.github.io/OxygenForge-OS/",
+  releaseTag: "v1.0.0",
   editions: {
     desktop: "Günlük kullanım için XFCE masaüstü, Calamares kurulum ve Gizlilik Merkezi.",
     server: "Konsol tabanlı sunucular için OpenSSH, nftables ve fail2ban."
@@ -18,6 +22,45 @@ const SITE = {
     },
     server:  { x86_64: { url: "", size: "", sha256: "" }, arm64: { url: "", size: "", sha256: "" } }
   },
+  features: [
+    ["shield", "Telemetri yok", "Kurulum ve kullanım verisi hiçbir sunucuya gönderilmez. Toplanmayan veri sızdırılamaz.", "Gizlilik"],
+    ["lock", "Tam disk şifreleme", "Calamares içinde LUKS’i tek adımda aç. Kurtarma anahtarı yalnızca sende kalır.", "Güvenlik"],
+    ["spark", "Liquid glass", "picom blur, yarı saydam paneller ve yuvarlatılmış kenarlarla hazır gelen imza görünümü.", "Tasarım"],
+    ["sliders", "Tek merkez", "DNS-over-TLS, güvenlik duvarı, MAC rastgeleleştirme ve çökme dökümleri aynı yerde.", "Kontrol"],
+    ["code", "Açık kaynak", "Tüm kaynak GitHub’da. İncele, derle, değiştir; kapalı kutu yok.", "Topluluk"],
+    ["package", "Debian 13 tabanı", "Tanıdık paket yönetimi, geniş donanım desteği ve uzun ömürlü bir temel.", "Temel"]
+  ],
+  compare: [
+    ["Masaüstü", "XFCE + liquid glass", "Yok, konsol"],
+    ["Kurulum", "Calamares grafik kurulum", "Calamares, sunucu profili"],
+    ["Günlük araçlar", "Firefox ESR, LibreOffice, KeePassXC", "Temel sistem araçları"],
+    ["Gizlilik Merkezi", "Grafik arayüz", "Komut satırı araçları"],
+    ["SSH", "Kapalı", "Kapalı, isteğe bağlı"],
+    ["Hedef", "Günlük kullanım", "Sunucu / VPS"]
+  ],
+  roadmap: [
+    {
+      v: "1.0",
+      date: "Kasım 2026",
+      state: "done",
+      name: "Forge",
+      items: ["İlk genel sürüm", "Desktop ISO", "Gizlilik Merkezi", "Liquid glass masaüstü"]
+    },
+    {
+      v: "1.1",
+      date: "Planlanıyor",
+      state: "next",
+      name: "Signal",
+      items: ["ARM64 masaüstü imajı", "Sunucu ISO’su", "Secure Boot imzalama", "Daha geniş donanım testi"]
+    },
+    {
+      v: "1.2",
+      date: "Planlanıyor",
+      state: "later",
+      name: "Common",
+      items: ["Topluluk yansıları", "Ek dil desteği", "Otomatik kurulum testleri", "Paket imzalama"]
+    }
+  ],
   requirements: [
     ["İşlemci", "64 bit, çift çekirdek", "64 bit, dört çekirdek"],
     ["Bellek", "2 GB", "4 GB veya üzeri"],
@@ -48,6 +91,7 @@ const SITE = {
     ["İndirme başlamıyor, ne yapmalıyım?", "Tarayıcı indirmeyi engellemiş olabilir. Bağlantıyı yeniden dene ya da sayfayı başka bir tarayıcıda aç."],
     ["Dosyanın bozulmadığını nasıl anlarım?", "Doğrulama bölümündeki komutu çalıştır ve çıktıyı beklenen SHA-256 değeriyle karşılaştır."],
     ["OxygenForgeOS telemetri gönderiyor mu?", "Hayır. Kurulum ve kullanım verisi toplanmaz; çökme dökümleri varsayılan olarak kapalıdır. Ağa yalnızca senin başlattığın güncelleme, DNS ve saat eşitleme için çıkılır."],
-    ["Hangi veriler toplanıyor?", "Varsayılan olarak hiçbiri. Gizlilik Merkezi'nden şifreli DNS'i, güvenlik duvarını ve MAC rastgeleleştirmeyi yönetebilirsin. Ayrıntılar Gizlilik Politikası'nda."]
+    ["Hangi veriler toplanıyor?", "Varsayılan olarak hiçbiri. Gizlilik Merkezi'nden şifreli DNS'i, güvenlik duvarını ve MAC rastgeleleştirmeyi yönetebilirsin. Ayrıntılar Gizlilik Politikası'nda."],
+    ["Katkıda bulunabilir miyim?", "Evet. Kaynak, derleme belgeleri ve sorun takibi GitHub’da. Hata bildirimi, çeviri, dokümantasyon ve paket testleri açık."]
   ]
 };

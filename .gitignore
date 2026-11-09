@@ -1,2 +1,4 @@
 .freebuff/
-OxygenForgeOS-site/downloads/*.iso
+*.iso
+OxygenForgeOS/out/
+.DS_Store

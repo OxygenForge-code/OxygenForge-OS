@@ -1,7 +1,7 @@
 // Liquid glass: the light follows the pointer without reading any device data.
 (() => {
   const surfaces = document.querySelectorAll(
-    ".hero, .nav, .glass, .benefits, .features, .card, .rc, .legal-card, .pitem, .tldr div"
+    ".hero, .nav, .glass, .benefits, .features, .card, .rc, .legal-card, .pitem, .tldr div, .bento-card, .desk, .stop, .btn"
   );
 
   for (const surface of surfaces) {

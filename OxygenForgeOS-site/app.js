@@ -4,6 +4,7 @@ const ed = $("#edition"), ar = $("#arch"), fn = $("#fname"), typed = $("#typed")
 const fileName = () => `OxygenForgeOS-${ed.value}-${ar.value}.iso`;
 const sync = () => { const r = RELEASES[ed.value][ar.value]; fn.textContent = fileName() + (r.size ? " · " + r.size : ""); };
 ed.onchange = ar.onchange = sync; sync();
+const relver = $("#relver"); if (relver) relver.textContent = SITE.releaseTag;
 
 let tm;
 function show(msg) {
@@ -13,7 +14,7 @@ function show(msg) {
 $("#dl").onsubmit = e => {
   e.preventDefault();
   const url = RELEASES[ed.value][ar.value].url;
-  if (!url) return show("Bu sürüm için indirme bağlantısı henüz eklenmedi. config.js içindeki url alanına ekle.");
+  if (!url) return show("Bu sürüm henüz yayınlanmadı. GitHub Releases sayfasından mevcut sürümleri inceleyebilirsin.");
   const a = document.createElement("a");
   a.href = url; a.download = fileName();
   document.body.append(a); a.click(); a.remove();

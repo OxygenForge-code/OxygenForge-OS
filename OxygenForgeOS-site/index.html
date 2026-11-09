@@ -3,13 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OxygenForgeOS indir</title>
-<meta name="description" content="OxygenForgeOS 1.0 “Forge”: gizlilik odaklı, Debian tabanlı Linux. Telemetri yok, hesap yok. ISO indir, SHA-256 ile doğrula.">
+<title>OxygenForgeOS — Gizlilik odaklı, Debian tabanlı Linux</title>
+<meta name="description" content="OxygenForgeOS 1.0 “Forge”: gizlilik odaklı, Debian 13 tabanlı Linux. Telemetri yok, hesap yok, liquid glass masaüstü. ISO indir, SHA-256 ile doğrula.">
 <meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#1b110c">
+<link rel="canonical" href="https://oxygenforge-code.github.io/OxygenForge-OS/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="OxygenForgeOS — Gizlilik odaklı Linux">
+<meta property="og:description" content="Debian 13 tabanlı, telemetrisiz, liquid glass masaüstü. 1.0 “Forge” indirilebilir.">
+<meta property="og:url" content="https://oxygenforge-code.github.io/OxygenForge-OS/">
+<meta property="og:site_name" content="OxygenForgeOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OxygenForgeOS — Gizlilik odaklı Linux">
+<meta name="twitter:description" content="Debian 13 tabanlı, telemetrisiz, liquid glass masaüstü.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="sections.css">
 <link rel="stylesheet" href="liquid.css">
+<link rel="stylesheet" href="extras.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"OxygenForgeOS","applicationCategory":"OperatingSystem","operatingSystem":"Linux","softwareVersion":"1.0","description":"Debian 13 tabanlı, gizlilik odaklı Linux dağıtımı.","offers":{"@type":"Offer","price":"0","priceCurrency":"TRY"},"url":"https://oxygenforge-code.github.io/OxygenForge-OS/","downloadUrl":"https://github.com/OxygenForge-code/OxygenForge-OS/releases/download/v1.0.0/OxygenForgeOS-desktop-x86_64.iso","license":"https://github.com/OxygenForge-code/OxygenForge-OS/blob/main/LICENSE"}
+</script>
 </head>
 <body id="top">
 <svg width="0" height="0" style="position:absolute" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -18,35 +33,57 @@
 <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.7 2.7L16 9.5"/></symbol>
 <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/></symbol>
 <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.4 3.2 7.9 7.5 9.5 4.3-1.6 7.5-5.1 7.5-9.5V6z"/><path d="m8.7 12 2.2 2.2 4.4-4.5"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v2"/></symbol>
+<symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7z"/><path d="m18.5 16 .7 2.3 2.3.7-2.3.7-.7 2.3-.7-2.3-2.3-.7 2.3-.7z"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+<symbol id="i-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol>
+<symbol id="i-package" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9M8 5l8 4.5"/></symbol>
+<symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-4 1.2-4-2-5.5-2.5M15 21v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6A4.7 4.7 0 0 0 18.8 6c.1-.3.5-1.3-.1-2.8 0 0-1.1-.3-3.6 1.3a12.5 12.5 0 0 0-6.2 0C6.4 2.9 5.3 3.2 5.3 3.2c-.6 1.5-.2 2.5-.1 2.8A4.7 4.7 0 0 0 4 9.4c0 4.6 2.7 5.7 5.5 6-.4.4-.6.9-.5 1.9V21"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
 </svg>
 <div class="bg" aria-hidden="true"><canvas id="bg"></canvas></div>
-<nav class="nav"><a class="brand" href="#top">OxygenForgeOS</a><div class="lk"><a href="#releases">Sürümler</a><a href="#verify">Doğrulama</a><a href="#reqs">Gereksinimler</a><a href="#install">Kurulum</a><a href="#privacy">Gizlilik</a><a href="#faq">SSS</a></div><a class="dl" href="#top">İndir</a></nav>
+<nav class="nav">
+  <a class="brand" href="#top" aria-label="OxygenForgeOS ana sayfa">OxygenForgeOS</a>
+  <div class="lk"><a href="#features">Neden</a><a href="#releases">Sürümler</a><a href="#verify">Doğrulama</a><a href="#install">Kurulum</a><a href="#privacy">Gizlilik</a><a href="#faq">SSS</a></div>
+  <div class="navactions">
+    <a class="gh" href="https://github.com/OxygenForge-code/OxygenForge-OS" target="_blank" rel="noopener" aria-label="GitHub deposu"><svg width="16" height="16"><use href="#i-github"/></svg><span>GitHub</span></a>
+    <a class="dl" href="#releases">İndir</a>
+  </div>
+</nav>
 <div class="stage"><main class="hero">
   <section class="copy">
-    <h1>OxygenForgeOS,<br>şimdi indirilebilir</h1>
-    <p>Sürümünü seç, kurulum dosyasını indir ve birkaç dakikada kurmaya başla.</p>
+    <p class="kicker"><span class="pulse"></span>Açık kaynak · Debian 13 tabanlı · 1.0 “Forge”</p>
+    <h1>Gizlilik bir ayar değil.<br>Başlangıç noktası.</h1>
+    <p>Telemetrisiz, hesapsız ve senin kontrolünde bir Linux. Liquid glass masaüstü, Calamares kurulum ve tek merkezde gizlilik araçları.</p>
     <div class="benefits">
       <div class="search"><span id="typed" aria-hidden="true"></span><svg width="29" height="29"><use href="#i-search"/></svg></div>
       <ul class="features">
         <li style="--k:0"><svg><use href="#i-target"/></svg>Ücretsiz indirme</li>
-        <li style="--k:1"><svg><use href="#i-star"/></svg>Güncel sürüm</li>
+        <li style="--k:1"><svg><use href="#i-star"/></svg>Açık kaynak</li>
         <li style="--k:2"><svg><use href="#i-check"/></svg>ISO ile kurulum</li>
         <li style="--k:3"><svg><use href="#i-doc"/></svg>Kurulum rehberi</li>
       </ul>
       <i class="shine"></i>
     </div>
+    <p class="tinyaudit"><span>✓</span> Telemetri yok <span>·</span> Hesap yok <span>·</span> Çerez yok</p>
   </section>
   <form class="card" id="dl">
     <header><h2>OxygenForgeOS’u indir</h2><p>Sürümünü ve mimarini seç.</p></header>
     <label>Sürüm<select id="edition"><option value="desktop">Desktop</option><option value="server">Server</option></select></label>
     <label>Mimari<select id="arch"><option value="x86_64">x86_64 (Intel / AMD)</option><option value="arm64">ARM64</option></select></label>
     <label>Dosya<output id="fname"></output></label>
-    <button type="submit">OxygenForgeOS’u indir</button>
+    <button type="submit">ISO’yu indir</button>
+    <p class="releaseline"><span>Son sürüm</span><b id="relver">v1.0.0</b><a href="https://github.com/OxygenForge-code/OxygenForge-OS/releases" target="_blank" rel="noopener">Sürüm notları →</a></p>
     <small>İndirerek <a href="gizlilik.html">Gizlilik Politikası</a>’nı okuduğunu kabul etmiş olursun.</small>
   </form>
 </main></div>
 <div id="sections" class="wrap"></div>
 <footer class="foot">
+  <div class="foot-main">
+    <div class="foot-brand"><b>OxygenForgeOS</b><span>Gizlilik odaklı, Debian tabanlı Linux.</span></div>
+    <div class="foot-links"><a href="#features">Neden</a><a href="#releases">Sürümler</a><a href="#install">Kurulum</a><a href="gizlilik.html">Gizlilik</a><a href="https://github.com/OxygenForge-code/OxygenForge-OS" target="_blank" rel="noopener">GitHub</a></div>
+  </div>
   <p>© 2026 OxygenForge. Tüm hakları saklıdır.</p>
   <p class="fl"><a href="gizlilik.html">Gizlilik Politikası</a><span>·</span><a href="#verify">Dosya doğrulama</a><span>·</span><a href="gizlilik.html#os">İşletim sistemi gizliliği</a></p>
 </footer>

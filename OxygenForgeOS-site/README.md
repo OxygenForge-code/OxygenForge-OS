@@ -1,0 +1,30 @@
+# OxygenForgeOS web sitesi
+
+Statik HTML/CSS/JS site. Çerez, analitik, harici font ve üçüncü taraf betiği
+kullanmaz. GitHub Pages’e `main` dalındaki değişikliklerle otomatik yayınlanır.
+
+## İçerik güncelleme
+
+Tüm sürüm, özellik, SSS ve yol haritası verisi `config.js` içindedir.
+
+- `SITE.releaseTag`: gösterilen sürüm etiketi.
+- `SITE.releases.*.url`: GitHub Releases indirme bağlantısı.
+- `SITE.releases.*.size` ve `sha256`: indirme kartı ve doğrulama komutları.
+- `SITE.features`, `SITE.compare`, `SITE.roadmap`: ana sayfa bölümleri.
+
+ISO’yu repoya eklemeyin; GitHub’ın 100 MB dosya sınırı vardır. ISO’yu Releases’e
+yükleyip `SITE.releases` içindeki adresi güncelleyin.
+
+## Yerel önizleme
+
+```bash
+npx serve .
+# veya
+python3 -m http.server 8080
+```
+
+## Yayın
+
+`.github/workflows/pages.yml` bu klasörü GitHub Pages’e yükler. Pages kaynağı
+“GitHub Actions” olmalıdır. Özel alan adı eklenirse `robots.txt`, `sitemap.xml`
+ve `index.html` içindeki mutlak adresleri güncelleyin.
