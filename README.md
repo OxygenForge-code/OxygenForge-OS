@@ -93,8 +93,8 @@ yazılımlar kendi lisanslarını korur. Ayrıntı: [`LICENSE`](LICENSE).
 ## Site kalite kontrolü
 
 Site; mobil bölüm menüsü, klavye odağı, “içeriğe geç” bağlantısı, doğrudan
-SHA-256 bağlantıları ve 1200×630 sosyal paylaşım kartı içerir. Site-only
-bağlantı ve dosya kontrolü:
+SHA-256 bağlantıları, 1200×630 sosyal paylaşım kartı ve 192/512 px PWA
+simgeleri içerir. Site-only bağlantı ve dosya kontrolü:
 
 ```bash
 node scripts/verify-release.mjs --site-only

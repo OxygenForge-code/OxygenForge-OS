@@ -101,7 +101,10 @@ function checkSiteAssets() {
     "sections.css",
     "liquid.css",
     "extras.css",
-    "experience.css"
+    "experience.css",
+    "icon-192.png",
+    "icon-512.png",
+    "icon-maskable-512.png"
   ];
   for (const file of required) {
     if (!existsSync(join(siteDir, file))) fail(`Site varlığı eksik: ${file}`);
@@ -116,6 +119,18 @@ function checkSiteAssets() {
   }
   if (png.length > 1024 * 1024) {
     fail(`og.png 1 MB'tan küçük olmalı; bulunan: ${png.length} bayt`);
+  }
+
+  for (const [file, expected] of [
+    ["icon-192.png", 192],
+    ["icon-512.png", 512],
+    ["icon-maskable-512.png", 512]
+  ]) {
+    const icon = readFileSync(join(siteDir, file));
+    const iconWidth = icon.readUInt32BE(16), iconHeight = icon.readUInt32BE(20);
+    if (iconWidth !== expected || iconHeight !== expected) {
+      fail(`${file} ${expected}x${expected} olmalı; bulunan: ${iconWidth}x${iconHeight}`);
+    }
   }
 
   return required.length;

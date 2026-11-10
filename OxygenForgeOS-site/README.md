@@ -50,6 +50,8 @@ ve `index.html` içindeki mutlak adresleri güncelleyin.
   `main` işaretine ve “İçeriğe geç” bağlantısına sahiptir.
 - `og.png` 1200×630 sosyal paylaşım kartıdır; ana sayfa ve rehberlerde
   Open Graph/Twitter meta etiketleriyle kullanılır.
+- `icon-192.png`, `icon-512.png` ve `icon-maskable-512.png` PWA/ana ekran
+  simgeleridir; `site.webmanifest` içinde tanımlıdır.
 - İndirme kartları SHA-256 dosyasına doğrudan bağlantı verir; yayınlanmamış
   mimariler “Yakında” olarak devre dışıdır.
 - Yalnızca site bağlantılarını denetlemek için:
