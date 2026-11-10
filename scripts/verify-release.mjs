@@ -90,7 +90,19 @@ async function readManifests(site) {
 }
 
 function checkSiteAssets() {
-  const required = ["og.png", "nav.js", "site.webmanifest", "sitemap.xml", "robots.txt"];
+  const required = [
+    "og.png",
+    "nav.js",
+    "site.webmanifest",
+    "sitemap.xml",
+    "robots.txt",
+    "favicon.svg",
+    "style.css",
+    "sections.css",
+    "liquid.css",
+    "extras.css",
+    "experience.css"
+  ];
   for (const file of required) {
     if (!existsSync(join(siteDir, file))) fail(`Site varlığı eksik: ${file}`);
   }
@@ -102,36 +114,96 @@ function checkSiteAssets() {
   if (width !== 1200 || height !== 630) {
     fail(`og.png 1200x630 olmalı; bulunan: ${width}x${height}`);
   }
+  if (png.length > 1024 * 1024) {
+    fail(`og.png 1 MB'tan küçük olmalı; bulunan: ${png.length} bayt`);
+  }
 
   return required.length;
 }
 
+function checkJavaScriptSyntax() {
+  const files = readdirSync(siteDir).filter(file => file.endsWith(".js")).sort();
+  for (const file of files) {
+    try {
+      new vm.Script(readFileSync(join(siteDir, file), "utf8"), { filename: file });
+    } catch (error) {
+      fail(`${file}: JavaScript sözdizimi hatası\n  ${error.message}`);
+    }
+  }
+  return files.length;
+}
+
+function decodeFragment(value) {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
 function checkLocalSiteLinks() {
   const errors = [];
+  const duplicateErrors = [];
+  // index.html'in bölümleri sections.js tarafından çalışma anında üretilir.
+  // Statik HTML'de görünmedikleri için yalnızca bu dosyanın #hedeflerini atla.
+  const runtimeAnchoredFiles = new Set(["index.html"]);
   let checked = 0;
+  let anchors = 0;
 
   const htmlFiles = readdirSync(siteDir).filter(file => file.endsWith(".html"));
+  const idsByFile = new Map();
+  for (const file of htmlFiles) {
+    const html = readFileSync(join(siteDir, file), "utf8");
+    const ids = new Set();
+    const seen = new Set();
+    for (const match of html.matchAll(/\sid=["']([^"']+)["']/g)) {
+      if (seen.has(match[1])) duplicateErrors.push(`${file}: #${match[1]}`);
+      seen.add(match[1]);
+      ids.add(match[1]);
+    }
+    idsByFile.set(file, ids);
+  }
+
   for (const file of htmlFiles) {
     const html = readFileSync(join(siteDir, file), "utf8");
     for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
       const href = match[1].trim();
-      if (!href || href.startsWith("#")) continue;
+      if (!href || href === "#") continue;
       if (/^(?:https?:|mailto:|tel:|data:|javascript:)/i.test(href)) continue;
 
-      const pathPart = href.split(/[?#]/, 1)[0];
-      if (!pathPart) continue;
+      const [pathWithQuery, fragment = ""] = href.split("#", 2);
+      const pathPart = pathWithQuery.split("?", 1)[0];
+      if (!pathPart) {
+        anchors++;
+        if (fragment && !runtimeAnchoredFiles.has(file) && !idsByFile.get(file).has(decodeFragment(fragment))) {
+          errors.push(`${file}: ${href} (aynı sayfada hedef yok)`);
+        }
+        continue;
+      }
       const target = pathPart.startsWith("/")
         ? join(siteDir, pathPart)
         : join(dirname(join(siteDir, file)), pathPart);
       checked++;
-      if (!existsSync(target)) errors.push(`${file}: ${href}`);
+      if (!existsSync(target)) {
+        errors.push(`${file}: ${href}`);
+      } else if (fragment && target.endsWith(".html")) {
+        anchors++;
+        const targetName = target.slice(siteDir.length + 1);
+        const targetIds = idsByFile.get(targetName);
+        if (targetIds && !runtimeAnchoredFiles.has(targetName) && !targetIds.has(decodeFragment(fragment))) {
+          errors.push(`${file}: ${href} (hedef bölüm yok)`);
+        }
+      }
     }
   }
 
-  if (errors.length) {
-    fail(`Site içinde eksik yerel dosya/bağlantı var:\n  ${errors.join("\n  ")}`);
+  if (duplicateErrors.length) {
+    fail(`Site içinde çift kullanılan kimlikler var:\n  ${duplicateErrors.join("\n  ")}`);
   }
-  return { htmlFiles: htmlFiles.length, checked };
+  if (errors.length) {
+    fail(`Site içinde eksik yerel dosya veya bölüm bağlantısı var:\n  ${errors.join("\n  ")}`);
+  }
+  return { htmlFiles: htmlFiles.length, checked, anchors };
 }
 
 async function github(path) {
@@ -160,8 +232,9 @@ async function main() {
   const site = await readSiteConfig();
   const manifests = await readManifests(site);
   const assetCount = checkSiteAssets();
+  const scriptCount = checkJavaScriptSyntax();
   const siteCheck = checkLocalSiteLinks();
-  console.log(`✓ Site: ${siteCheck.htmlFiles} HTML dosyası, ${siteCheck.checked} yerel bağlantı ve ${assetCount} kritik varlık kontrol edildi`);
+  console.log(`✓ Site: ${siteCheck.htmlFiles} HTML dosyası, ${siteCheck.checked} yerel bağlantı, ${siteCheck.anchors} bölüm bağlantısı, ${scriptCount} JS dosyası ve ${assetCount} kritik varlık kontrol edildi`);
   if (siteOnly) {
     console.log("✓ Site kontrolü tamamlandı (release API atlandı)");
     return;

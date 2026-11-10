@@ -101,4 +101,5 @@ node scripts/verify-release.mjs --site-only
 ```
 
 Mobil menü ve sihirbaz akışı tarayıcıda; indirme kartları, yayınlanmamış
-mimarilerin devre dışı olması ve yerel bağlantılar otomatik kontrolle doğrulanır.
+mimarilerin devre dışı olması, yerel dosyalar, çift HTML kimlikleri, kırık
+`#bölüm` bağlantıları ve JavaScript sözdizimi otomatik kontrolle doğrulanır.

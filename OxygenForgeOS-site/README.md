@@ -24,8 +24,9 @@ node ../scripts/verify-release.mjs
 ```
 
 Bu komut, yayınlanan ISO’ların GitHub’daki boyutunu ve SHA-256 özetini
-`downloads/*.json` ile karşılaştırır; indirme bağlantısını ve sitedeki yerel
-bağlantıları da denetler. `.github/workflows/verify-release.yml` aynı kontrolü
+`downloads/*.json` ile karşılaştırır; indirme bağlantısını, sitedeki yerel
+dosyaları, çift HTML kimliklerini, kırık `#bölüm` bağlantılarını ve JavaScript
+sözdizimini de denetler. `.github/workflows/verify-release.yml` aynı kontrolü
 release, haftalık zamanlanmış ve manuel çalıştırmalarda yapar.
 
 ## Yerel önizleme
