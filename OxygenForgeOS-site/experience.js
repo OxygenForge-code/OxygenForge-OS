@@ -3,7 +3,7 @@
   const S = SITE;
 
   /* ---------- Install wizard ---------- */
-  const wiz = $("#wizard");
+  const wiz = $("#wizard-root");
   if (wiz) {
     const labels = ["Kullanım", "Mimari", "Şifreleme"];
     let step = 0;
@@ -20,7 +20,7 @@
         <div class="wiz-steps">${labels.map((l, i) => `<span class="done"><b>✓</b>${l}</span>`).join("")}</div>
         <div class="wiz-card glass">
           <span class="eyebrow">Önerilen imaj</span>
-          <h3>${name}</h3>
+          <h3 tabindex="-1">${name}</h3>
           <p>${S.editions[use]} ${enc}</p>
           <div class="wiz-meta">
             <span>${rel.size || "Henüz yayınlanmadı"}</span>
@@ -38,6 +38,8 @@
       </div>`;
     };
 
+    const focusHeading = () => requestAnimationFrame(() => wiz.querySelector(".wiz-card h3")?.focus());
+
     const render = () => {
       if (step > 2) { wiz.innerHTML = result(); return; }
       const q = S.wizard.questions[step];
@@ -45,7 +47,7 @@
         <div class="wiz-steps">${labels.map((l, i) => `<span class="${i < step ? "done" : i === step ? "active" : ""}"><b>${i < step ? "✓" : i + 1}</b>${l}</span>`).join("")}</div>
         <div class="wiz-card glass">
           <span class="eyebrow">Adım ${step + 1} / 3</span>
-          <h3>${q.title}</h3><p>${q.hint}</p>
+          <h3 tabindex="-1">${q.title}</h3><p>${q.hint}</p>
           <div class="wiz-opts">${q.options.map(o => `<button type="button" class="wiz-opt ${answers[q.key] === o.v ? "selected" : ""}" data-key="${q.key}" data-value="${o.v}"><b>${o.t}</b><span>${o.d}</span></button>`).join("")}</div>
           <div class="wiz-foot"><button type="button" class="wiz-back" data-back ${step === 0 ? "disabled" : ""}>← Geri</button><span>${Object.keys(answers).length} / 3 seçildi</span></div>
         </div>
@@ -55,8 +57,8 @@
     wiz.addEventListener("click", event => {
       const button = event.target.closest("button");
       if (!button) return;
-      if (button.dataset.back !== undefined) { if (step > 0) { step--; render(); } return; }
-      if (button.dataset.reset !== undefined) { step = 0; for (const k of Object.keys(answers)) delete answers[k]; render(); return; }
+      if (button.dataset.back !== undefined) { if (step > 0) { step--; render(); focusHeading(); } return; }
+      if (button.dataset.reset !== undefined) { step = 0; for (const k of Object.keys(answers)) delete answers[k]; render(); focusHeading(); return; }
       if (button.dataset.download !== undefined) {
         ed.value = answers.use; ar.value = answers.arch;
         ed.dispatchEvent(new Event("change")); ar.dispatchEvent(new Event("change"));
@@ -64,7 +66,7 @@
       }
       if (button.dataset.key) {
         answers[button.dataset.key] = button.dataset.value;
-        step++; render();
+        step++; render(); focusHeading();
       }
     });
     render();
@@ -81,7 +83,7 @@
       const status = count === 4 ? "Tam koruma" : count === 3 ? "Korunuyor" : count === 2 ? "Kısmi koruma" : "Dikkat";
       demo.innerHTML = `<div class="pdemo">
         <div class="pdemo-head">
-          <div class="pdemo-ring" style="--p:${count * 25}"><div><strong>${count}/4</strong><span>${status}</span></div></div>
+          <div class="pdemo-ring" style="--p:${count * 25}" aria-live="polite"><div><strong>${count}/4</strong><span>${status}</span></div></div>
           <div class="pdemo-copy"><span class="eyebrow">Etkileşimli demo</span><h3>Gizlilik Merkezi</h3><p>Anahtarları dene; gerçek OxygenForgeOS’ta bu ayarlar tek panelden yönetilir. Bu demo hiçbir sistemi değiştirmez.</p></div>
           <button type="button" class="btn" data-pd-reset>Varsayılana dön</button>
         </div>

@@ -2,6 +2,7 @@
 // WebGPU yoksa aynı görsel statik olarak çizilir.
 (() => {
   const cv = document.getElementById("bg"), W = 1600, H = 900;
+  if (!cv) return;
   cv.width = W; cv.height = H;
   const src = document.createElement("canvas"); src.width = W; src.height = H;
   const g = src.getContext("2d");

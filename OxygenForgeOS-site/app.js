@@ -35,7 +35,11 @@ function nextPhrase() {
   setTimeout(() => typed.classList.add("out"), 1950);
   setTimeout(nextPhrase, 2900);
 }
-setTimeout(nextPhrase, 1550);
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+if (typed) {
+  if (reduceMotion) typed.textContent = PHRASES[0];
+  else setTimeout(nextPhrase, 1550);
+}
 
 // Cihaz mimarisini tahmin et (destekleyen tarayıcılarda)
 (navigator.userAgentData?.getHighEntropyValues ? navigator.userAgentData.getHighEntropyValues(["architecture"]).then(v => v.architecture) : Promise.resolve(/aarch64|arm/i.test(navigator.userAgent) ? "arm" : ""))

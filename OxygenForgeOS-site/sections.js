@@ -2,7 +2,7 @@
   const S = SITE, E = { desktop: "Desktop", server: "Server" }, A = { x86_64: "x86_64 (Intel / AMD)", arm64: "ARM64" };
   const sec = (id, t, sub, body) => `<section class="sec" id="${id}"><div class="sh"><h2>${t}</h2>${sub ? `<p>${sub}</p>` : ""}</div>${body}</section>`;
   const det = (q, a, open) => `<details${open ? " open" : ""}><summary>${q}</summary>${a}</details>`;
-  const cmd = (l, id) => `<div class="cmd"><span>${l}</span><code id="${id}"></code><button type="button" class="cp">Kopyala</button></div>`;
+  const cmd = (l, id) => `<div class="cmd"><span>${l}</span><code id="${id}"></code><button type="button" class="cp" aria-label="${l} değerini kopyala">Kopyala</button></div>`;
 
   const features = S.features.map((f, i) => `<article class="bento-card bc-${i}" style="--d:${i}">
     <span class="bento-icon"><svg width="21" height="21"><use href="#i-${f[0]}"/></svg></span>
@@ -11,7 +11,11 @@
   </article>`).join("");
 
   const cards = Object.keys(S.releases).map(e => `<article class="rc"><h3>${E[e]}</h3><p>${S.editions[e]}</p>` +
-    Object.keys(S.releases[e]).map(a => `<div class="rr"><div><b>${A[a]}</b><span>${S.releases[e][a].size || "Boyut eklenmedi"}</span></div><button type="button" data-e="${e}" data-a="${a}">İndir</button></div>`).join("") + (e === "server" ? `<a class="guide-link" href="sunucu.html">Sunucu kurulum rehberi →</a>` : "") + `</article>`).join("");
+    Object.keys(S.releases[e]).map(a => {
+      const r = S.releases[e][a], ready = Boolean(r.url);
+      const label = ready ? `${E[e]} ${A[a]} ISO indir` : `${E[e]} ${A[a]} henüz yayınlanmadı`;
+      return `<div class="rr"><div><b>${A[a]}</b><span>${r.size || "Henüz yayınlanmadı"}</span></div><div class="rr-actions">${ready ? `<a class="sha-link" href="downloads/OxygenForgeOS-${e}-${a}.iso.sha256" download title="SHA-256 checksum dosyasını indir">SHA-256</a>` : ""}<button type="button" data-e="${e}" data-a="${a}" aria-label="${label}"${ready ? "" : " disabled"}>${ready ? "İndir" : "Yakında"}</button></div></div>`;
+    }).join("") + (e === "server" ? `<a class="guide-link" href="sunucu.html">Sunucu kurulum rehberi →</a>` : "") + `</article>`).join("");
 
   const compare = `<div class="glass cmp"><div class="cmp-row cmp-head"><b>Özellik</b><b>Desktop</b><b>Server</b></div>` +
     S.compare.map(r => `<div class="cmp-row"><b>${r[0]}</b><span>${r[1]}</span><span>${r[2]}</span></div>`).join("") + `</div>`;
@@ -48,12 +52,12 @@
       </div>
       <p class="desk-note"><span>Liquid glass</span> picom dual-kawase blur · GTK3/GTK4 · XFCE panel · Calamares</p>
     </div>`) +
-    sec("wizard", "Sana uygun imajı bul", "Üç kısa soru; doğru sürüm, mimari ve indirme bağlantısı.", `<div id="wizard" class="wiz-root"></div>`) +
+    sec("wizard", "Sana uygun imajı bul", "Üç kısa soru; doğru sürüm, mimari ve indirme bağlantısı.", `<div id="wizard-root" class="wiz-root"></div>`) +
     sec("demo", "Gizlilik Merkezi’ni dene", "Gerçek OxygenForgeOS ayarlarının tarayıcıda çalışan bir temsili.", `<div id="privacy-demo" class="pdemo-root"></div>`) +
     sec("architecture", "Debian’dan ISO’ya", "Aynı kaynak ağacı; tekrarlanabilir bir derleme hattı.", pipeline) +
     sec("releases", "Tüm sürümler", `Sürüm ${S.version} “${S.codename}”. Kullanım amacına ve işlemcine uygun dosyayı seç.`, `<div class="rg">${cards}</div>`) +
     sec("verify", "İndirdiğin dosyayı doğrula", "ISO dosyasının eksiksiz ve değişmemiş olduğunu SHA-256 değeriyle kontrol et.",
-      `<div class="glass"><p class="hl">Seçili dosya: <b id="vf"></b></p>${cmd("Beklenen SHA-256", "vh")}${cmd("Linux / macOS", "vl")}${cmd("Windows (PowerShell)", "vw")}<p class="note">Komutun çıktısı beklenen değerle aynı olmalı. Farklıysa dosyayı yeniden indir. Tüm sürümler: <a href="${S.repo}/releases" target="_blank" rel="noopener">GitHub Releases</a>.</p></div>`) +
+      `<div class="glass"><p class="hl">Seçili dosya: <b id="vf" aria-live="polite"></b></p>${cmd("Beklenen SHA-256", "vh")}${cmd("Linux / macOS", "vl")}${cmd("Windows (PowerShell)", "vw")}<p class="note">Komutun çıktısı beklenen değerle aynı olmalı. Farklıysa dosyayı yeniden indir. Tüm sürümler: <a href="${S.repo}/releases" target="_blank" rel="noopener">GitHub Releases</a>.</p></div>`) +
     sec("reqs", "Sistem gereksinimleri", "", `<div class="glass tw"><table><tr><th></th><th>Minimum</th><th>Önerilen</th></tr>${S.requirements.map(r => `<tr><th>${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</table></div>`) +
     sec("install", "Kurulum", "Üç adımda canlı oturumdan kurulu sisteme.", `<ol class="st">${S.steps.map(s => `<li class="glass"><b>${s[0]}</b><p>${s[1]}</p></li>`).join("")}</ol>`) +
     sec("compare", "Hangi sürüm sana uygun?", "Aynı gizlilik temeli; farklı kullanım senaryoları.", compare) +

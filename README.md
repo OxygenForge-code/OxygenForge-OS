@@ -88,3 +88,17 @@ cd OxygenForgeOS
 
 Orijinal kod ve yapılandırma MIT lisanslıdır. Debian paketleri ve üçüncü taraf
 yazılımlar kendi lisanslarını korur. Ayrıntı: [`LICENSE`](LICENSE).
+
+
+## Site kalite kontrolü
+
+Site; mobil bölüm menüsü, klavye odağı, “içeriğe geç” bağlantısı, doğrudan
+SHA-256 bağlantıları ve 1200×630 sosyal paylaşım kartı içerir. Site-only
+bağlantı ve dosya kontrolü:
+
+```bash
+node scripts/verify-release.mjs --site-only
+```
+
+Mobil menü ve sihirbaz akışı tarayıcıda; indirme kartları, yayınlanmamış
+mimarilerin devre dışı olması ve yerel bağlantılar otomatik kontrolle doğrulanır.

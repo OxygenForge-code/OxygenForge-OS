@@ -6,21 +6,36 @@
 <title>Gizlilik Politikası — OxygenForgeOS</title>
 <meta name="description" content="OxygenForgeOS 1.0 ve OxygenForge web sitesinin gizlilik politikası: telemetri yok, hesap yok, çerez yok.">
 <meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#1b110c">
+<link rel="canonical" href="https://oxygenforge-code.github.io/OxygenForge-OS/gizlilik.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gizlilik Politikası — OxygenForgeOS">
+<meta property="og:description" content="OxygenForgeOS ve web sitesi için gizlilik politikası: telemetri yok, hesap yok, çerez yok.">
+<meta property="og:url" content="https://oxygenforge-code.github.io/OxygenForge-OS/gizlilik.html">
+<meta property="og:image" content="https://oxygenforge-code.github.io/OxygenForge-OS/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://oxygenforge-code.github.io/OxygenForge-OS/og.png">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css?v=20261109h">
-<link rel="stylesheet" href="sections.css?v=20261109h">
-<link rel="stylesheet" href="liquid.css?v=20261109h">
+<link rel="manifest" href="site.webmanifest">
+<link rel="stylesheet" href="style.css?v=20261110e">
+<link rel="stylesheet" href="sections.css?v=20261110e">
+<link rel="stylesheet" href="liquid.css?v=20261110e">
+<link rel="stylesheet" href="extras.css?v=20261110e">
 </head>
 <body id="top">
-<nav class="nav"><a class="brand" href="index.html">OxygenForgeOS</a><div class="lk"><a href="index.html#releases">Sürümler</a><a href="index.html#verify">Doğrulama</a><a href="index.html#install">Kurulum</a><a href="gizlilik.html" aria-current="page">Gizlilik</a><a href="index.html#faq">SSS</a></div><a class="dl" href="index.html#top">İndir</a></nav>
+<a class="skip" href="#main">İçeriğe geç</a>
+<div class="bg" aria-hidden="true"><canvas id="bg"></canvas></div>
+<nav class="nav" aria-label="Ana menü"><a class="brand" href="index.html">OxygenForgeOS</a><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navlinks" aria-label="Bölüm menüsünü aç"><span></span><span></span><span></span></button><div class="lk" id="navlinks"><a href="index.html#releases">Sürümler</a><a href="index.html#verify">Doğrulama</a><a href="index.html#install">Kurulum</a><a href="gizlilik.html" aria-current="page">Gizlilik</a><a href="index.html#faq">SSS</a></div><a class="dl" href="index.html#top">İndir</a></nav>
 
 <div class="stage legal-stage">
-<main class="legal">
+<main class="legal" id="main" tabindex="-1">
   <header class="legal-head">
     <p class="eyebrow">Yasal</p>
     <h1>Gizlilik Politikası</h1>
     <p class="legal-sub">OxygenForgeOS 1.0 “Forge” işletim sistemi ve OxygenForge web sitesi için geçerlidir.</p>
-    <p class="legal-meta">Son güncelleme: 9 Kasım 2026 · Sürüm 1.0 · Türkçe</p>
+    <p class="legal-meta">Son güncelleme: 10 Kasım 2026 · Sürüm 1.0 · Türkçe</p>
   </header>
 
   <article class="glass legal-card">
@@ -145,7 +160,7 @@
       <li>gelen bağlantıları reddeden nftables güvenlik duvarı;</li>
       <li>DNS-over-TLS ve Wi-Fi MAC rastgeleleştirmesi;</li>
       <li>çökme dökümlerinin varsayılan olarak kapalı olması;</li>
-      <li>yayınlanan ISO dosyaları için SHA-256 özeti ve mümkün olduğunda imza.</li>
+      <li>yayınlanan ISO dosyaları için SHA-256 özeti; ikili imza henüz yok.</li>
     </ul>
     <p>Hiçbir sistem mutlak güvenlik sağlamaz. ISO’yu yalnızca resmî kaynaktan indirin ve Doğrulama bölümündeki adımlarla bütünlüğünü kontrol edin. Secure Boot imzası henüz sağlanmadığı için bazı sistemlerde Secure Boot’u kapatmanız gerekebilir.</p>
 
@@ -159,8 +174,8 @@
     <p>Bu politikayla ilgili sorular, KVKK/GDPR başvuruları ve veri silme talepleri için:</p>
     <div class="contact-card">
       <b>OxygenForge projesi — Gizlilik</b>
-      <span>E-posta: <a href="mailto:privacy@oxygenforge.example">privacy@oxygenforge.example</a></span>
-      <span>Güvenlik bildirimleri: <a href="mailto:security@oxygenforge.example">security@oxygenforge.example</a></span>
+      <span>Gizlilik soruları: <a href="https://github.com/OxygenForge-code/OxygenForge-OS/issues/new">GitHub Issues üzerinden yaz</a> · lütfen hassas veri paylaşma</span>
+      <span>Güvenlik bildirimleri: <a href="https://github.com/OxygenForge-code/OxygenForge-OS/security/advisories/new">özel güvenlik bildirimi aç</a></span>
     </div>
     <p style="margin-top:16px">Başvurunuzu kimliğinizi doğrulayacak yeterli bilgiyle birlikte gönderin. Talebiniz en geç 30 gün içinde yanıtlanır.</p>
   </article>
@@ -171,6 +186,8 @@
   <p>© 2026 OxygenForge. Tüm hakları saklıdır.</p>
   <p class="fl"><a href="gizlilik.html">Gizlilik Politikası</a><span>·</span><a href="index.html#verify">Dosya doğrulama</a><span>·</span><a href="index.html#privacy">İşletim sistemi gizliliği</a></p>
 </footer>
-<script src="glass.js?v=20261109h"></script>
+<script src="bg.js?v=20261110e"></script>
+<script src="nav.js?v=20261110e"></script>
+<script src="glass.js?v=20261110e"></script>
 </body>
 </html>

@@ -89,6 +89,23 @@ async function readManifests(site) {
   return manifests;
 }
 
+function checkSiteAssets() {
+  const required = ["og.png", "nav.js", "site.webmanifest", "sitemap.xml", "robots.txt"];
+  for (const file of required) {
+    if (!existsSync(join(siteDir, file))) fail(`Site varlığı eksik: ${file}`);
+  }
+
+  const png = readFileSync(join(siteDir, "og.png"));
+  const isPng = png.length > 24 && png[0] === 0x89 && png.subarray(1, 4).toString() === "PNG";
+  if (!isPng) fail("og.png geçerli bir PNG değil");
+  const width = png.readUInt32BE(16), height = png.readUInt32BE(20);
+  if (width !== 1200 || height !== 630) {
+    fail(`og.png 1200x630 olmalı; bulunan: ${width}x${height}`);
+  }
+
+  return required.length;
+}
+
 function checkLocalSiteLinks() {
   const errors = [];
   let checked = 0;
@@ -142,8 +159,9 @@ async function main() {
   const siteOnly = process.argv.includes("--site-only");
   const site = await readSiteConfig();
   const manifests = await readManifests(site);
+  const assetCount = checkSiteAssets();
   const siteCheck = checkLocalSiteLinks();
-  console.log(`✓ Site: ${siteCheck.htmlFiles} HTML dosyası, ${siteCheck.checked} yerel bağlantı kontrol edildi`);
+  console.log(`✓ Site: ${siteCheck.htmlFiles} HTML dosyası, ${siteCheck.checked} yerel bağlantı ve ${assetCount} kritik varlık kontrol edildi`);
   if (siteOnly) {
     console.log("✓ Site kontrolü tamamlandı (release API atlandı)");
     return;

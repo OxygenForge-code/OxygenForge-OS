@@ -4,7 +4,7 @@
  "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
 <policyconfig>
   <vendor>OxygenForge</vendor>
-  <vendor_url>https://oxygenforge.example/</vendor_url>
+  <vendor_url>https://oxygenforge-code.github.io/OxygenForge-OS/</vendor_url>
 
   <action id="org.oxygenforge.privacy.set">
     <description>OxygenForgeOS gizlilik ayarlarını değiştir</description>

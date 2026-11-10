@@ -9,10 +9,10 @@ strings:
   versionedName: OxygenForgeOS 1.0 "Forge"
   shortVersionedName: OxygenForge 1.0
   bootloaderEntryName: OxygenForgeOS
-  productUrl: https://oxygenforge.example/
-  supportUrl: https://oxygenforge.example/sss
-  releaseNotesUrl: https://oxygenforge.example/surum-notlari
-  knownIssuesUrl: https://oxygenforge.example/sss
+  productUrl: https://oxygenforge-code.github.io/OxygenForge-OS/
+  supportUrl: https://github.com/OxygenForge-code/OxygenForge-OS/issues/new
+  releaseNotesUrl: https://github.com/OxygenForge-code/OxygenForge-OS/releases
+  knownIssuesUrl: https://github.com/OxygenForge-code/OxygenForge-OS/issues
 
 images:
   productLogo: logo.png

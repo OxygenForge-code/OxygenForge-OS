@@ -41,3 +41,18 @@ python3 -m http.server 8080
 `.github/workflows/pages.yml` bu klasörü GitHub Pages’e yükler. Pages kaynağı
 “GitHub Actions” olmalıdır. Özel alan adı eklenirse `robots.txt`, `sitemap.xml`
 ve `index.html` içindeki mutlak adresleri güncelleyin.
+
+
+## Site kalite notları
+
+- Mobil bölüm menüsü ve klavye odağı `nav.js` içinde; sayfaların ana içeriği
+  `main` işaretine ve “İçeriğe geç” bağlantısına sahiptir.
+- `og.png` 1200×630 sosyal paylaşım kartıdır; ana sayfa ve rehberlerde
+  Open Graph/Twitter meta etiketleriyle kullanılır.
+- İndirme kartları SHA-256 dosyasına doğrudan bağlantı verir; yayınlanmamış
+  mimariler “Yakında” olarak devre dışıdır.
+- Yalnızca site bağlantılarını denetlemek için:
+
+```bash
+node ../scripts/verify-release.mjs --site-only
+```

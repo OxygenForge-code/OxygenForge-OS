@@ -106,5 +106,7 @@ ls -l /etc/ssh/ssh_host_*
 
 ## İletişim
 
-Gizlilik soruları: `privacy@oxygenforge.example` (yayından önce gerçek adresle
-değiştir). Güvenlik bildirimleri için `SECURITY.md`.
+Gizlilik soruları için [GitHub Issues](https://github.com/OxygenForge-code/OxygenForge-OS/issues/new)
+kullanılabilir; lütfen herkese açık issue'larda hassas kişisel veri paylaşmayın.
+Güvenlik bildirimleri için [SECURITY.md](../SECURITY.md) ve GitHub'ın özel
+güvenlik bildirimi kanalı kullanılır.

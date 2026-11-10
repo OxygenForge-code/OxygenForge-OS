@@ -8,12 +8,9 @@
 
 ## Bildirim
 
-Güvenlik açıklarını herkese açık bir issue olarak **açma**. Şu adrese yaz:
-
-`security@oxygenforge.example`
-
-Yayından önce bu adresi gerçek bir adresle değiştir ve mümkünse bir PGP anahtarı
-yayınla. Mesajda şunları ekle:
+Güvenlik açıklarını herkese açık bir issue olarak **açma**. Bunun yerine
+[GitHub özel güvenlik bildirimi](https://github.com/OxygenForge-code/OxygenForge-OS/security/advisories/new)
+kanalını kullan. Mesajda şunları ekle:
 
 - Etkilenen sürüm ve mimari
 - Yeniden üretme adımları
